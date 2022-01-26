@@ -48,7 +48,7 @@ The `metadata` contain the information about the samples you wold like to analyz
 It has to be a comma-separated file with 4 columns, and a header row as shown in the examples below.
 
 ```console
-SampleID,Participant_ID,Treatment_Arm,Replicate
+SampleID,Character1,Character2,Character3
 SAMPLE1,A,treatment,1
 SAMPLE2,B,treatment,1
 SAMPLE3,C,control,1
@@ -57,9 +57,7 @@ SAMPLE3,C,control,1
 | Column         | Description                                                                                                                                                                            |
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `SampleID`            | Custom sample name. This entry will be unique for each sample and should not contain any special characters. |
-| `Participant_ID`      | participant id  |
-| `Treatment_Arm`       | experiment design.                                           |
-| `Replicate`           | Replicates                                                   |
+| `CharacterX`      | metadata for each sample. The column name can be anything related with the samples.  |
 
 
 
