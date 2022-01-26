@@ -1,0 +1,4 @@
+SampleID,Participant_ID,Treatment_Arm,Replicate
+SAMPLE1,A,treatment,1
+SAMPLE2,B,treatment,1
+SAMPLE3,C,control,1
