@@ -125,7 +125,7 @@ params {
 ```console
 conda activate microbiome
 module load bcl2fastq/2.20
-nextflow run jianhong/16S_pipeline -profile conda -c profile.config
+nextflow run jianhong/16S_pipeline -r main -profile conda -c profile.config
 ```
 
 ## Documentation
