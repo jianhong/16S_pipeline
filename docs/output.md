@@ -12,9 +12,57 @@ The directories listed below will be created in the results directory after the 
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
+* [trimmomatic](#remove-primers) - Remove primers
+* [`fastq_pair_filter.py`](#sync-barcodes) - Sync barcodes
+* [`qiime2::demux`](#demultiplex) - Demultiplex
+* [DATA2](#filter-reads-and-run-data2) - Filter reads and run DATA2
 * [FastQC](#fastqc) - Raw read QC
 * [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
 * [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+
+### Remove primers
+<details markdown="1">
+<summary>Output files</summary>
+
+* `1_remove_primers/*.fastq.gz`: Zip archive containing primer removed fastq files.
+
+</details>
+
+Removing primers from Illumina data (Paired-End Fastq) using [`trimmomatic`](http://www.usadellab.org/cms/?page=trimmomatic).
+This step is recommended by dada2 in their FAQ on chimera checking.
+
+### Sync barcodes
+<details markdown="1">
+<summary>Output files</summary>
+
+* `2_sync_barcodes/*.fastq.gz`: Zip archive containing proper paired fastq files.
+
+</details>
+
+Make sure forward, reverse, and index read files are all aligned (i.e. line 1 of each corresponds to each other) using [`fastq_pair_filter.py`](https://gist.github.com/588841/).
+
+### Demultiplex
+<details markdown="1">
+<summary>Output files</summary>
+
+* `3_demultiplex/demuxd_reads/*.fastq.gz`: Zip archive containing demultiplexed fastq files.
+* `3_demultiplex/*.qza`: Qza archive containing qiime2 files.
+
+</details>
+
+Break fastq files (F and R) into individual samples based on barcodes using [`qiime2::demux`](https://docs.qiime2.org/2021.11/plugins/available/demux/).
+
+### Filter reads and run DATA2
+<details markdown="1">
+<summary>Output files</summary>
+
+* `4_filter/<SAMPLEID>/*.fastq.gz`: Zip archive containing filtered fastq files.
+* `4_filter/*.png`: QC plots.
+* `4_filter/*.rds`: R object from DATA2 for downstream analysis.
+
+</details>
+
+This step merges paired reads, constructs a sequence table, and assigns taxonomy using the silva database. The output is a phyloseq object, as well as the sequence table and taxonomy table.
 
 ### FastQC
 
