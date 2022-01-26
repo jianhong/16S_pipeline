@@ -1,6 +1,7 @@
 process PHYLOSEQ {
     tag "$meta.id"
     tag "process_high"
+    tag "error_ignore"
 
     conda (params.enable_conda ? "bioconda::bioconductor-phyloseq=1.38.0" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -57,7 +58,7 @@ process PHYLOSEQ {
     map1 <- read.csv(MAPPING, stringsAsFactors = FALSE)
     map1 <- map1[map1[, "SampleID"] %in% sample.names.1,]
     map <- as.data.frame(map1) # without this line get sam_data slot empty error from phyloseq
-    rownames(map) <- map[, "X.SampleID"]
+    rownames(map) <- map[, "SampleID"]
 
     # Make refseq object and extract sequences from tables
     refseq <- colnames(seqtab)

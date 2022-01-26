@@ -148,8 +148,8 @@ workflow MICROBIOME {
     //
     // MODULE: Run phyloseq
     //
-    PHYLOSEQ(DADA2.out.robj, ch_metadata)
-    ch_versions = ch_versions.mix(PHYLOSEQ.out.versions)
+    //PHYLOSEQ(DADA2.out.robj, ch_metadata)
+    //ch_versions = ch_versions.mix(PHYLOSEQ.out.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
