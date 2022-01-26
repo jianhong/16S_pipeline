@@ -63,7 +63,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
     Run it on cluster.
 
-    First prepare a profile config file named as [profile.config](../docs/usage.md).
+    First prepare a profile config file named as [profile.config](docs/usage.md).
 
     ```console
     // submit by slurm
@@ -81,20 +81,60 @@ On release, automated continuous integration tests run the pipeline on a full-si
         silva_tax = 'https://zenodo.org/record/4587955/files/silva_species_assignment_v138.1.fa.gz?download=1'
     }
     ```
-    
+
     Then run:
 
     ```console
     nextflow run jianhong/16S_pipeline -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> -c profile.config
     ```
 
+## Create `conda` container for `nextflow`
+
+1. install [`conda`](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+
+```console
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+
+2. Create [`nextflow`](https://www.nextflow.io/) environment.
+
+```console
+conda create -y --name microbiome bioconda::nextflow=21.10.6
+```
+
+3. Create profile config file named as [profile.config](docs/usage.md).
+
+```console
+// submit by slurm
+process.executor = "slurm"
+process.clusterOptions = "-J JL21"
+params {
+    // Input data
+    input  = 'Spinach_done' // replace Spinach_done by your own file
+    barcodes = '16S_pipeline_JL21/0_mapping/barcodes.tsv'
+    metadata = '16S_pipeline_JL21/0_mapping/metadata.csv'
+
+    // report email
+    email = 'your@email.addr'
+}
+```
+
+4. Activate [`nextflow`](https://www.nextflow.io/) environment and Run the pipeline.
+
+```console
+conda activate microbiome
+module load bcl2fastq/2.20
+nextflow run jianhong/16S_pipeline -profile conda -c profile.config
+```
+
 ## Documentation
 
-The 16S_pipeline pipeline comes with documentation about the pipeline [usage](https://nf-co.re/microbiome/usage), [parameters](https://nf-co.re/microbiome/parameters) and [output](https://nf-co.re/microbiome/output).
+The 16S_pipeline pipeline comes with documentation about the pipeline [usage](docs/usage.md), and [output](docs/output).
 
 ## Credits
 
-16S_pipeline was originally written by Jianhong Ou.
+16S_pipeline was originally written by Jianhong Ou, and Jeff Letourneau.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
@@ -103,8 +143,6 @@ We thank the following people for their extensive assistance in the development 
 ## Contributions and Support
 
 If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
-
-For further information or help, don't hesitate to get in touch on the [Slack `#microbiome` channel](https://nfcore.slack.com/channels/microbiome) (you can join with [this invite](https://nf-co.re/join/slack)).
 
 ## Citations
 
