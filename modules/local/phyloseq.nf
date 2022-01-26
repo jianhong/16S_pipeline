@@ -9,7 +9,7 @@ process PHYLOSEQ {
 
     input:
     tuple val(meta), path(rds)
-    val metadata
+    path metadata
 
     output:
     tuple val(meta), path("$prefix")     , emit: phyloseq
