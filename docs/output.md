@@ -1,4 +1,4 @@
-# nf-core/microbiome: Output
+# 16S_pipeline: Output
 
 ## Introduction
 
