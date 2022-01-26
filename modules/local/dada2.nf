@@ -46,6 +46,7 @@ process DADA2 {
     SPECIES_ASSIGNMENT <- "$species_assignment"
     SEQL1 <- 250
     SEQL2 <- 256
+    SAMPLENAMES <- "samplenames.1.rds"
     SEQTAB_S1 <- "seqtab.s1.rds"
     SEQTAB <- "seqtab.nochim.rds"
     TAXTAB <- "taxtab.rds"
@@ -91,6 +92,7 @@ process DADA2 {
     filtRs.s1 <- filts.s1[grepl("_R_filt",filts.s1)]
 
     sample.names.1 <- sapply(strsplit(basename(filtFs.s1), "_"), `[`, 1)
+    saveRDS(sample.names.1, SAMPLENAMES)
 
     # Dereplication -----------------------------------------------------------
 

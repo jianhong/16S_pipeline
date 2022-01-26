@@ -43,9 +43,15 @@ process PHYLOSEQ {
     SEQTAB_S1 <- "seqtab.s1.rds"
     SEQTAB <- "seqtab.nochim.rds"
     TAXTAB <- "taxtab.rds"
+    SAMPLENAMES <- "samplenames.1.rds"
     OUTFOLDER <- "$prefix"
 
     # Make phyloseq object ----------------------------------------------------
+    # import data from dada2 output
+    sample.names.1 <- readRDS(SAMPLENAMES)
+    seqtab.s1 <- readRDS(SEQTAB_S1)
+    seqtab <- readRDS(SEQTAB)
+    taxtab <- readRDS(TAXTAB)
 
     # Import mapping
     map1 <- read.csv(MAPPING, stringsAsFactors = FALSE)
@@ -54,10 +60,6 @@ process PHYLOSEQ {
     rownames(map) <- map[, "X.SampleID"]
 
     # Make refseq object and extract sequences from tables
-    seqtab.s1 <- readRDS(SEQTAB_S1)
-    seqtab <- readRDS(SEQTAB)
-    taxtab <- readRDS(TAXTAB)
-
     refseq <- colnames(seqtab)
     names(refseq) <- paste0('seq_', seq_along(refseq))
     colnames(seqtab) <- names(refseq[match(colnames(seqtab), refseq)])
@@ -65,9 +67,9 @@ process PHYLOSEQ {
 
     # Write the taxtable, seqtable, and refseq to ascii ------------------------
     dir.create(OUTFOLDER, recursive=TRUE)
-    write.table(seqtab, file=file.path(OUTFOLDER, 'seqtab.nochim.tsv'), quote=FALSE, sep='\t')
-    write.table(taxtab, file=file.path(OUTFOLDER, 'taxtab.nochim.tsv'), quote=FALSE, sep='\t')
-    write.table(refseq, file=file.path(OUTFOLDER, 'refseqs.nochim.tsv'), quote=FALSE, sep='\t', col.names = FALSE)
+    write.table(seqtab, file=file.path(OUTFOLDER, 'seqtab.nochim.tsv'), quote=FALSE, sep='\\t')
+    write.table(taxtab, file=file.path(OUTFOLDER, 'taxtab.nochim.tsv'), quote=FALSE, sep='\\t')
+    write.table(refseq, file=file.path(OUTFOLDER, 'refseqs.nochim.tsv'), quote=FALSE, sep='\\t', col.names = FALSE)
 
     # Combine into phyloseq object
     ps <- phyloseq(otu_table(seqtab, taxa_are_rows = FALSE), sample_data(map), tax_table(taxtab))
