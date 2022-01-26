@@ -27,7 +27,13 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
+0. Prepare fastq files ([`bcl2fastq`](https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software.html))
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
+2. Remove primers ([`trimmomatic`](http://www.usadellab.org/cms/?page=trimmomatic))
+3. Sync barcodes ([`fastq_pair_filter.py`](https://gist.github.com/588841/))
+4. Demultiplex ([`qiime2::demux`](https://docs.qiime2.org/2021.11/plugins/available/demux/))
+5. Filter reads ([`DATA2`](http://benjjneb.github.io/dada2/))
+6. Run dada2 ([`DATA2`](http://benjjneb.github.io/dada2/))
 2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
 
 ## Quick Start
@@ -51,10 +57,35 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 4. Start running your own analysis!
 
-    <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
-
     ```console
     nextflow run jianhong/16S_pipeline -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> --input '[path to raw reads files]' --barcodes '[path to barcodes tsv file]' --metadata '[path to metadata csv file]'
+    ```
+
+    Run it on cluster.
+
+    First prepare a profile config file named as [profile.config](../docs/usage.md).
+
+    ```console
+    // submit by slurm
+    process.executor = "slurm"
+    process.clusterOptions = "-J microbiome"
+    params {
+        // Input data
+        input  = 'path/to/your/fastqfiles'
+        skip_bcl2fastq = true
+        barcodes = 'path/to/your/barcodes.tsv'
+        metadata = 'path/to/your/metadata.csv'
+
+        // Genome references
+        silva_nr99 = 'https://zenodo.org/record/4587955/files/silva_nr99_v138.1_train_set.fa.gz?download=1'
+        silva_tax = 'https://zenodo.org/record/4587955/files/silva_species_assignment_v138.1.fa.gz?download=1'
+    }
+    ```
+    
+    Then run:
+
+    ```console
+    nextflow run jianhong/16S_pipeline -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> -c profile.config
     ```
 
 ## Documentation
