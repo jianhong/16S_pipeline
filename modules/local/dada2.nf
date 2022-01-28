@@ -14,7 +14,7 @@ process DADA2 {
 
     output:
     tuple val(meta), path("*.rds")       , emit: robj
-    path '*.png'                         , emit: qc
+    path '*.{png,csv}'                   , emit: qc
     path 'dada2.out.txt'                 , emit: log
     path "versions.yml"                  , emit: versions
 
@@ -44,8 +44,8 @@ process DADA2 {
     NCORE <- as.numeric("$task.cpus")
     TRAIN_SET <- "$train_set"
     SPECIES_ASSIGNMENT <- "$species_assignment"
-    SEQL1 <- 250
-    SEQL2 <- 256
+    SEQL1 <- 0
+    SEQL2 <- 0
     SAMPLENAMES <- "samplenames.1.rds"
     SEQTAB_S1 <- "seqtab.s1.rds"
     SEQTAB <- "seqtab.nochim.rds"
@@ -156,17 +156,31 @@ process DADA2 {
     saveRDS(seqtab.s1, SEQTAB_S1)
     dim(seqtab.s1)
     # Inspect the distributioh of sequence lengths
-    table(nchar(colnames(seqtab.s1)))
+    seqlenTab <- table(nchar(colnames(seqtab.s1)))
+    write.csv(seqlenTab, "seqlenTab.csv", row.names=FALSE)
+    if(SEQL1==0 && SEQL2==0){## auto detect cutoff range
+        maxV <- which.max(seqlenTab)
+        maxV <- as.numeric(names(seqlenTab)[maxV])
+        if(length(maxV)>1){
+            if(any(abs(diff(maxV))>2)){
+                stop("can not determine cutoff SEQ1 and SEQ2")
+            }
+            maxV <- maxV[median(seq_along(maxV))]
+        }
+        SEQL1 <- maxV - 2
+        SEQL2 <- maxV + 2
+    }
     #Trim sequences of interest
     seqtab.s1 <- seqtab.s1[,nchar(colnames(seqtab.s1)) %in% seq(SEQL1,SEQL2)]
     # Inspect the distributioh of sequence lengths
-    table(nchar(colnames(seqtab.s1)))
+    seqlenTab <- table(nchar(colnames(seqtab.s1)))
+    write.csv(seqlenTab, "seqlenTab.filt.csv", row.names=FALSE)
 
     # Remove Chimeras ---------------------------------------------------------
 
     seqtab.s1.nochim <- removeBimeraDenovo(seqtab.s1, method='consensus', multithread=NCORE, verbose=TRUE)
-    dim(seqtab.s1.nochim)
-    sum(seqtab.s1.nochim)/sum(seqtab.s1)
+    freq_chimeric <- c(number_row=nrow(seqtab.s1.nochim), number_col=ncol(seqtab.s1.nochim), frequency=sum(seqtab.s1.nochim)/sum(seqtab.s1))
+    write.csv(t(freq_chimeric), "freq_chimeric.csv", row.names=FALSE)
     saveRDS(seqtab.s1.nochim, "seqtab.s1.nochim.rds")
 
 
@@ -193,7 +207,8 @@ process DADA2 {
     saveRDS(taxtab, TAXTAB)
 
     # How many sequences are classified at different levels? (percent)
-    colSums(!is.na(taxtab))/nrow(taxtab)
+    classify_levels <- colSums(!is.na(taxtab))/nrow(taxtab)
+    write.csv(t(classify_levels), "classify_levels.csv", row.names=FALSE)
 
     # copy the log file
     file.copy(".command.log", "dada2.out.txt")

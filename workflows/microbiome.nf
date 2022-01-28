@@ -115,6 +115,7 @@ workflow MICROBIOME {
     //
     REMOVE_PRIMERS(ch_reads)
     ch_versions = ch_versions.mix(REMOVE_PRIMERS.out.versions)
+    ch_multiqc_files = ch_multiqc_files.mix(REMOVE_PRIMERS.out.log.collect().ifEmpty([]))
 
     //
     // MODULE: Make sure forward, reverse, and index read files are all aligned
@@ -144,6 +145,7 @@ workflow MICROBIOME {
     //
     DADA2(FILTERING.out.reads, ch_silva_nr99, ch_silva_tax)
     ch_versions = ch_versions.mix(DADA2.out.versions)
+    ch_multiqc_files = ch_multiqc_files.mix(DADA2.out.qc.collect().ifEmpty([]))
 
     //
     // MODULE: Run phyloseq

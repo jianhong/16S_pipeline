@@ -13,6 +13,7 @@ process REMOVE_PRIMERS {
     output:
     tuple val(meta), path("${prefix}_R1.paired.fastq.gz"), path("${prefix}_R2.paired.fastq.gz"), emit: paired
     tuple val(meta), path("${prefix}_R1.unpaired.fastq.gz"), path("${prefix}_R2.unpaired.fastq.gz"), emit: unpaired
+    path '*.trim_out.log', emit: log
     path "versions.yml", emit: versions
 
     script:
@@ -26,7 +27,8 @@ process REMOVE_PRIMERS {
                 ${prefix}_R1.unpaired.fastq.gz \\
                 ${prefix}_R2.paired.fastq.gz \\
                 ${prefix}_R2.unpaired.fastq.gz \\
-                $args
+                $args \\
+                > ${prefix}.trim_out.log 2>&1
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

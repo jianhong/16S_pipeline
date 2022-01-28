@@ -11,8 +11,9 @@ process QIIME_DEMUX {
     path barcodes
 
     output:
-    tuple val(meta), path("${prefix}_demux-full.qza"), emit: reads
+    tuple val(meta), path("${prefix}_demux-full.qza")   , emit: reads
     tuple val(meta), path("${prefix}_demux-details.qza"), emit: details
+    tuple val(meta), path("${prefix}_demux-summary.qzv"), emit: summary
     path "versions.yml", emit: versions
 
     script:
@@ -25,6 +26,10 @@ process QIIME_DEMUX {
         --o-per-sample-sequences ${prefix}_demux-full.qza \\
         --o-error-correction-details ${prefix}_demux-details.qza \\
         $args
+
+    qiime demux summarize \\
+        --i-data ${prefix}_demux-full.qza \\
+        --o-visualization ${prefix}_demux-summary.qzv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
