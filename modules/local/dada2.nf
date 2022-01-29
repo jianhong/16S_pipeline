@@ -8,7 +8,7 @@ process DADA2 {
         'quay.io/biocontainers/bioconductor-dada2:1.22.0--r41h399db7b_0' }"
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads), path(stats)
     path train_set
     path species_assignment
 
@@ -41,9 +41,10 @@ process DADA2 {
     set.seed(4)
 
     FILTPATH <- "$reads"
-    NCORE <- as.numeric("$task.cpus")
+    NCORE <- ifelse(.Platform[["OS.type"]]!="windows", as.numeric("$task.cpus"), FALSE)
     TRAIN_SET <- "$train_set"
     SPECIES_ASSIGNMENT <- "$species_assignment"
+    STATS <- "$stats"
     SEQL1 <- 0
     SEQL2 <- 0
     SAMPLENAMES <- "samplenames.1.rds"
@@ -75,6 +76,10 @@ process DADA2 {
     if(!is.null(opt[["seqlen2"]])){
         SEQL2 <- opt[["seqlen2"]]
     }
+
+    # stats
+    getN <- function(x) sum(getUniques(x))
+    track <- readRDS(STATS)
 
     # Find filenames ----------------------------------------------------------
 
@@ -143,6 +148,8 @@ process DADA2 {
     # Run 1: Merge Paired Reads
     mergers.s1 <- mergePairs(dadaFs.s1, derepFs.s1, dadaRs.s1, derepRs.s1, verbose=TRUE)
     head(mergers.s1)
+    track <- cbind(track, sapply(dadaFs.s1, getN), sapply(dadaRs.s1, getN),
+                    sapply(mergers.s1, getN))
     # Run 1: Clear up space
     rm(derepFs.s1, derepRs.s1, dadaFs.s1, dadaRs.s1)
 
@@ -183,6 +190,10 @@ process DADA2 {
     write.csv(t(freq_chimeric), "freq_chimeric.csv", row.names=FALSE)
     saveRDS(seqtab.s1.nochim, "seqtab.s1.nochim.rds")
 
+    track <- cbind(track, rowSums(seqtab.s1.nochim))
+    colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
+    rownames(track) <- sample.names.1
+    write.csv(track, "processing_tracking.csv")
 
     # Merge Sequence Tables Together ------------------------------------------
 

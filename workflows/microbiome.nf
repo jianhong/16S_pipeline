@@ -139,6 +139,7 @@ workflow MICROBIOME {
     //
     FILTERING(QIIME_DEMULTIPLEX.out.reads)
     ch_versions = ch_versions.mix(FILTERING.out.versions)
+    ch_multiqc_files = ch_multiqc_files.mix(FILTERING.out.qc.collect().ifEmpty([]))
 
     //
     // MODULE: Run dada2

@@ -10,9 +10,9 @@ process FILTERING {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("$prefix")     , emit: reads
-    path '*.png'                         , emit: qc
-    path "versions.yml"                  , emit: versions
+    tuple val(meta), path("$prefix"), path("*.rds") , emit: reads
+    path '*.png'                                    , emit: qc
+    path "versions.yml"                             , emit: versions
 
     script:
     def args   = task.ext.args ?: ''
@@ -38,6 +38,8 @@ process FILTERING {
     DEMUXD_READS = "$reads"
     TRIM = grepl("trimming_reads", "$args")
     OUTFOLDER = "$prefix"
+    FILTER_STATS = "filter_stats.rds"
+    NCORE <- ifelse(.Platform[["OS.type"]]!="windows", as.numeric("$task.cpus"), FALSE)
 
     # Filtering and Trimming --------------------------------------------------
     #note s1 - is run number
@@ -62,6 +64,41 @@ process FILTERING {
     ggsave('Forward_quality_profile_s1.png', plot=p)
     p <- plotQualityProfile(fnRs.s1[[1]])
     ggsave('Reverse_quality_profile_s1.png', plot=p)
+    p_F <- plotQualityProfile(fnFs.s1, aggregate=TRUE)
+    p_R <- plotQualityProfile(fnRs.s1, aggregate=TRUE)
+    ggsave('Forward_quality_profile_aggregate.png', plot=p_F)
+    ggsave('Reverse_quality_profile_aggregate.png', plot=p_R)
+    if(TRIM){ # Reads look really good quality don't filter here
+        getTrimRange <- function(x){
+            l <- lapply(x[["layers"]], function(.ele) .ele[["data"]])
+            m <- lapply(x[["layers"]], function(.ele) .ele[["mapping"]])
+            id <- lapply(m, function(.ele) any(grepl("Mean", as.character(.ele[["y"]]))))
+            id <- which(unlist(id))
+            if(length(id)>0){
+                d <- l[[id[1]]]
+                pos <- which(d[, "Mean"] < 30)
+                if(length(pos)>0){
+                    pos <- which(d[, "Mean"] >= 30)
+                    ## start pos
+                    pos_l <- pos[1]
+                    ## end pos
+                    pos_r <- pos[length(pos)]
+                    c(pos_l, pos_r-pos_l+1)
+                }else{
+                    c(0, 0)
+                }
+            }else{
+                c(0, 0)
+            }
+        }
+        trim_range_L <- getTrimRange(p_F)
+        trim_range_R <- getTrimRange(p_R)
+        trimLeft = c(trim_range_L[1], trim_range_R[1])
+        truncLen = c(trim_range_L[2], trim_range_R[2])
+    }else{
+        trimLeft = c(0, 0)
+        truncLen = c(0, 0)
+    }
 
     # Perform filtering and trimming
 
@@ -70,19 +107,13 @@ process FILTERING {
     dir.create(OUTFOLDER)
     filtFs.s1 <- file.path(OUTFOLDER, paste0(sample.names.1,"_F_filt.fastq.gz"))
     filtRs.s1 <- file.path(OUTFOLDER, paste0(sample.names.1,"_R_filt.fastq.gz"))
-    if(TRIM){ # Reads look really good quality don't filter here
-        trimLeft = c(10, 0)
-        truncLen = c(150, 150)
-    }else{
-        trimLeft = c(0, 0)
-        truncLen = c(0, 0)
-    }
-    for (i in seq_along(fnFs.s1)){
-        fastqPairedFilter(c(fnFs.s1[i], fnRs.s1[i]), c(filtFs.s1[i], filtRs.s1[i]),
-                          trimLeft=trimLeft, truncLen=truncLen,
-                          maxN=0, maxEE=2, truncQ=2,
-                          compress=TRUE, verbose=TRUE,
-                          rm.phix=TRUE)
-    }
+
+    out <- filterAndTrim(fwd=fnFs.s1, filt=filtFs.s1,
+                        rev=fnRs.s1, filt.rev=filtRs.s1,
+                        trimLeft=trimLeft, truncLen=truncLen,
+                        maxN=0, maxEE=2, truncQ=2,
+                        compress=TRUE, verbose=TRUE,
+                        rm.phix=TRUE, multithread=NCORE)
+    saveRDS(out, FILTER_STATS)
     """
 }
