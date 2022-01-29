@@ -20,6 +20,11 @@ process QIIME_DEMUX {
     def args   = task.ext.args ?: ''
     prefix = task.ext.prefix ? "${meta.id}${task.ext.prefix}" : "${meta.id}"
     """
+    mkdir -p tmp
+    export TMPDIR=./tmp
+    export TMP=./tmp
+    export TEMP=./tmp
+
     qiime demux emp-paired \\
         --m-barcodes-file $barcodes \\
         --i-seqs $qza \\
