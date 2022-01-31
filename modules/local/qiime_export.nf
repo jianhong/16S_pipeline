@@ -24,7 +24,7 @@ process QIIME_EXPORT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
+    \$(qiime info | sed -n '/: [0-9.]/p' | sed 's/.*/    &/g')
     END_VERSIONS
     """
 }
