@@ -16,7 +16,7 @@ process FILTERING {
 
     script:
     def args   = task.ext.args ?: ''
-    prefix = task.ext.prefix ? "${meta.id}${task.ext.prefix}" : "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     """
     #!/usr/bin/env Rscript
 

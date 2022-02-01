@@ -15,7 +15,7 @@ process SYNC_BARCODES {
     path "versions.yml", emit: versions
 
     script:
-    prefix = task.ext.prefix ? "${meta.id}${task.ext.prefix}" : "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     """
     sync_paired_end_reads.py \\
         $barcodes $barcodes \\

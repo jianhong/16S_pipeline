@@ -18,7 +18,7 @@ process REMOVE_PRIMERS {
 
     script:
     def args   = task.ext.args ?: ''
-    prefix = task.ext.prefix ? "${meta.id}${task.ext.prefix}" : "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     """
     trimmomatic PE \\
                 -threads $task.cpus \\
