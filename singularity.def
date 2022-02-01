@@ -1,0 +1,30 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%help
+Nextflow+Singularity container
+
+%labels
+Maintainer Jianhong Ou <jianhong.ou@duke.edu>
+
+%post
+    export HOME=/root
+    echo "install singularity"
+    cd ${HOME} && \
+    apt-get update --fix-missing && \
+    apt-get install --yes wget openjdk-11-jdk
+    wget https://github.com/sylabs/singularity/releases/download/v3.9.4/singularity-ce_3.9.4-focal_amd64.deb && \
+    apt install --yes ./singularity-ce_3.9.4-focal_amd64.deb
+
+    echo "install nextflow"
+    cd ${HOME} && \
+    wget -qO- https://get.nextflow.io | bash && \
+    chmod 755 nextflow && \
+    mv nextflow /usr/bin/nextflow
+
+    rm -rf ${HOME}/*
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+    nextflow -version
+    singularity --version
