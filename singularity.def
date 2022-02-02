@@ -8,13 +8,38 @@ Nextflow+Singularity container
 Maintainer Jianhong Ou <jianhong.ou@duke.edu>
 
 %post
+    export TZ=America/New_York
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
     export HOME=/root
     echo "install singularity"
     cd ${HOME} && \
     apt-get update --fix-missing && \
-    apt-get install --yes wget openjdk-11-jdk
-    wget https://github.com/sylabs/singularity/releases/download/v3.9.4/singularity-ce_3.9.4-focal_amd64.deb && \
-    apt install --yes ./singularity-ce_3.9.4-focal_amd64.deb
+    apt-get install --yes \
+            build-essential \
+            libssl-dev \
+            uuid-dev \
+            libgpgme11-dev \
+            squashfs-tools \
+            libseccomp-dev \
+            pkg-config wget openjdk-11-jdk
+    export VERSION=1.17.6 OS=linux ARCH=amd64 && \
+    wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz && \
+    tar -C /usr/local -xzvf go$VERSION.$OS-$ARCH.tar.gz && \
+    rm go$VERSION.$OS-$ARCH.tar.gz && \
+    echo 'export GOPATH=${HOME}/go' >> ${HOME}/.bashrc && \
+    echo 'export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin' >> ${HOME}/.bashrc && \
+    export GOPATH=${HOME}/go
+    export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin
+    export VERSION=3.9.4 && # adjust this as necessary \
+    mkdir -p $GOPATH/src/github.com/sylabs && \
+    cd $GOPATH/src/github.com/sylabs && \
+    wget https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce-${VERSION}.tar.gz && \
+    tar -xzf singularity-ce-${VERSION}.tar.gz && \
+    export SINGULARITY_CACHEDIR=/tmp && \
+    cd ./singularity-ce-${VERSION} && \
+    ./mconfig --without-suid && \
+    make -C ./builddir && \
+    make -C ./builddir install
 
     echo "install nextflow"
     cd ${HOME} && \
@@ -22,9 +47,12 @@ Maintainer Jianhong Ou <jianhong.ou@duke.edu>
     chmod 755 nextflow && \
     mv nextflow /usr/bin/nextflow
 
-    rm -rf ${HOME}/*
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    echo "install miniconda"
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p /miniconda3 && \
+    ln -s /miniconda3/bin/conda /usr/bin/conda
 
-    nextflow -version
-    singularity --version
+	# clean up
+	rm -rf ${HOME}/*
+	apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
