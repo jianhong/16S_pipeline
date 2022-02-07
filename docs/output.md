@@ -21,6 +21,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 * [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
 ### Remove primers
+
 <details markdown="1">
 <summary>Output files</summary>
 
@@ -32,6 +33,7 @@ Removing primers from Illumina data (Paired-End Fastq) using [`trimmomatic`](htt
 This step is recommended by dada2 in their FAQ on chimera checking.
 
 ### Sync barcodes
+
 <details markdown="1">
 <summary>Output files</summary>
 
@@ -42,6 +44,7 @@ This step is recommended by dada2 in their FAQ on chimera checking.
 Make sure forward, reverse, and index read files are all aligned (i.e. line 1 of each corresponds to each other) using [`fastq_pair_filter.py`](https://gist.github.com/588841/).
 
 ### Demultiplex
+
 <details markdown="1">
 <summary>Output files</summary>
 
@@ -53,6 +56,7 @@ Make sure forward, reverse, and index read files are all aligned (i.e. line 1 of
 Break fastq files (F and R) into individual samples based on barcodes using [`qiime2::demux`](https://docs.qiime2.org/2021.11/plugins/available/demux/).
 
 ### Filter reads and run DATA2
+
 <details markdown="1">
 <summary>Output files</summary>
 

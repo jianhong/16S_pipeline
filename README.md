@@ -20,10 +20,7 @@
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
-
 ## Pipeline summary
-
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
 0. Prepare fastq files ([`bcl2fastq`](https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software.html))
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
@@ -32,7 +29,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 4. Demultiplex ([`qiime2::demux`](https://docs.qiime2.org/2021.11/plugins/available/demux/))
 5. Filter reads ([`DATA2`](http://benjjneb.github.io/dada2/))
 6. Run dada2 ([`DATA2`](http://benjjneb.github.io/dada2/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+7. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
 
 ## Quick Start
 
@@ -88,43 +85,43 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
 ## Create `conda` container for `nextflow`
 
-1. install [`conda`](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+1. Install [`conda`](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
-```console
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-```
+    ```console
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+    bash Miniconda3-latest-Linux-x86_64.sh
+    ```
 
 2. Create [`nextflow`](https://www.nextflow.io/) environment.
 
-```console
-conda create -y --name microbiome bioconda::nextflow=21.10.6
-```
+    ```console
+    conda create -y --name microbiome bioconda::nextflow=21.10.6
+    ```
 
 3. Create profile config file named as [profile.config](docs/usage.md).
 
-```console
-// submit by slurm
-process.executor = "slurm"
-process.clusterOptions = "-J JL21"
-params {
-    // Input data
-    input  = 'Spinach_done' // replace Spinach_done by your own file
-    barcodes = '16S_pipeline_JL21/0_mapping/barcodes.tsv'
-    metadata = '16S_pipeline_JL21/0_mapping/metadata.csv'
+    ```console
+    // submit by slurm
+    process.executor = "slurm"
+    process.clusterOptions = "-J JL21"
+    params {
+        // Input data
+        input  = 'Spinach_done' // replace Spinach_done by your own file
+        barcodes = '16S_pipeline_JL21/0_mapping/barcodes.tsv'
+        metadata = '16S_pipeline_JL21/0_mapping/metadata.csv'
 
-    // report email
-    email = 'your@email.addr'
-}
-```
+        // report email
+        email = 'your@email.addr'
+    }
+    ```
 
 4. Activate [`nextflow`](https://www.nextflow.io/) environment and Run the pipeline.
 
-```console
-conda activate microbiome
-module load bcl2fastq/2.20
-nextflow run jianhong/16S_pipeline -r main -profile conda -c profile.config
-```
+    ```console
+    conda activate microbiome
+    module load bcl2fastq/2.20
+    nextflow run jianhong/16S_pipeline -r main -profile conda -c profile.config
+    ```
 
 ## Documentation
 

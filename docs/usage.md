@@ -10,6 +10,7 @@ The pipeline is based on [DADA2](http://benjjneb.github.io/dada2/).
 ## Raw reads, barcodes and metadata
 
 You will need to create a barcodes and metadata tables with information about the samples you would like to analyze before running the pipeline. Use this parameter to specify its location.
+
 ```console
 --input '[path to raw reads files]' --barcodes '[path to barcodes tsv file]' --metadata '[path to metadata csv file]'
 ```
@@ -31,13 +32,14 @@ It has to be a tab-separated file with 2 columns, and a header row as shown in t
 It will be used to do demultiplex by [qiime2::demux](https://docs.qiime2.org/2021.11/plugins/available/demux/).
 
 ```console
-sample-id	barcode-sequence
-#q2:types	categorical
-Spinach1	TGTGCGATAACA
-Spinach2	GATTATCGACGA
-Spinach3	GCCTAGCCCAAT
+sample-id barcode-sequence
+#q2:types categorical
+Spinach1  TGTGCGATAACA
+Spinach2  GATTATCGACGA
+Spinach3  GCCTAGCCCAAT
 ....
 ```
+
 An [example samplesheet](../assets/barcodes.tsv) has been provided with the pipeline.
 
 ### Metadata
@@ -56,8 +58,6 @@ SAMPLE3,C,control,1
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `SampleID`            | Custom sample name. This entry will be unique for each sample and should not contain any special characters. |
 | `CharacterX`      | metadata for each sample. The column name can be anything related with the samples.  |
-
-
 
 ## Running the pipeline
 
