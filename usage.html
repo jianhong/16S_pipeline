@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>jianhong/16S_pipeline</title>
+  <meta name="description" content="This pipeline analyses data for microbiome 16S data.">
+  <meta name="author" content="Phil Ewels">
+  <meta name="color-scheme" content="light dark">
+  <link rel="shortcut icon" href="assets/nf-core-logo-square.png" type="image/png">
+  <link rel="alternate" type="application/rss+xml" title="nf-core: Events" href="./events/rss">
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/471b59d3f8.js"></script>
+  <script src="assets/jquery.min.js"></script>
+  <script src="assets/bootstrap.bundle.min.js"></script>
+  <script src="assets/highlight.min.js"></script>
+  <script src="assets/groovy.min.js"></script>
+  <!-- Page-specific CSS and JS -->
+      <script src="assets/moment.js"></script>
+    <script src="assets/Chart.min.js"></script>
+    <link href="assets/Chart.min.css" rel="stylesheet">
+    <script src="assets/hammer.min.js"></script>
+    <script src="assets/chartjs-plugin-zoom.min.js"></script>
+    <!-- NO CURRENT VERSION ON NPM --> <script src="assets/canvas2svg.js"></script><!-- NO CURRENT VERSION ON NPM -->
+    <script src="assets/FileSaver.min.js"></script>
+    <script src="assets/jquery.tablesorter.min.js"></script>
+
+  <!-- Custom nf-core CSS and JS -->
+  <link href="assets/nf-core-light.css" rel="stylesheet" id="theme-stylesheet">
+  <script src="assets/nf-core.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+      </script>
+<style type="text/css">/* Chart.js */
+@keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style>
+
+</head>
+
+<body tabindex="0" data-new-gr-c-s-check-loaded="14.1047.0" data-gr-ext-installed="">
+  <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light shadow-sm site-nav d-print-none">
+    <div class="container-fluid">
+      <a class="navbar-brand d-md-none" href="./">
+        <img height="25px" src="assets/nf-core-logo.svg" class="hide-dark">
+        <img height="25px" src="assets/nf-core-logo-darkbg.svg" class="hide-light">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarCollapse">
+        <ul class="navbar-nav">
+          <li class="nav-item p-1">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="usage.html">Usage docs</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="parameters.html">Parameters</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="output.html">Output docs</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="multiqc.html">Multiqc</a>
+          </li>
+        </ul>
+        <hr class="d-md-none">
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="mainpage">
+    <div class="mainpage-heading triangle-down">
+      <div class="container">
+        <h1 class="display-2">jianhong/<br class="d-sm-none">16S_pipeline</h1>
+        <p class="lead">This pipeline analyses data for 16S microbiome.</p>
+      </div>
+    </div>
+
+  <div class="container-fluid mainpage-subheader-heading chevron-down">
+    <div class="container text-center">
+      <p>
+        <a href="https://github.com/jianhong/16S_pipeline" class="btn btn-success btn-lg d-print-none">
+          <i class="fab fa-github" aria-hidden="true"></i> https://github.com/jianhong/16S_pipeline
+        </a>
+      </p>
+    </div>
+  </div>
+
+<div class="container-xxl main-content">
+
+  <ul class="nav nav-fill nfcore-subnav justify-content-around d-print-none">
+    <li class="nav-item">
+      <a class="nav-link" href="index.html"><i class="fas fa-sign-in me-1" aria-hidden="true"></i> Introduction</a>
+    </li>
+        <li class="nav-item">
+      <a class="nav-link active" href="usage.html"><i class="far fa-book me-1" aria-hidden="true"></i> Usage docs</a>
+    </li>
+          <li class="nav-item">
+        <a class="nav-link" href="parameters.html"><i class="far fa-book me-1" aria-hidden="true"></i> Parameter docs</a>
+      </li>
+        <li class="nav-item">
+      <a class="nav-link" href="output.html"><i class="far fa-book me-1" aria-hidden="true"></i> Output docs</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="multiqc.html"><i class="far fa-book me-1" aria-hidden="true"></i> MultiQC </a>
+    </li>
+
+  </ul>
+
+  <div class="row flex-wrap-reverse flex-lg-wrap ms-lg-5"><div class="col-12 col-lg-9"><div class="rendered-markdown pipeline-page-content"><h1 id="introduction" class="">Introduction<a href="usage.html#introduction" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h1>
+<p>16S_pipeline is a bioinformatics analysis pipelline used for 16S microbiome analysis. Supported is paired-end illumina data.
+The pipeline is based on <a href="http://benjjneb.github.io/dada2/">DADA2</a>.</p>
+<h2 id="raw-reads-barcodes-and-metadata" class="">Raw reads, barcodes and metadata<a href="usage.html#raw-reads-barcodes-and-metadata" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
+<p>You will need to create a barcodes and metadata tables with information about the samples you would like to analyze before running the pipeline. Use this parameter to specify its location.</p>
+<pre><code class="language-console hljs language-shell">--input '[path to raw reads files]' --barcodes '[path to barcodes tsv file]' --metadata '[path to metadata csv file]'</code></pre>
+<h3 id="raw-reads" class="">Raw reads<a href="usage.html#raw-reads" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>There are two choices for the raw reads input.</p>
+<ol>
+<li>The fastq.gz files exported by <a href="https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software.html">bcl2fastq</a>. The fastq.gz with R1, R2 and I1 files should be put into one folder and the folder path will be the parameter of <code>input</code>. And <code><span class="text-nowrap">--skip_bcl2fastq</span></code> should be set.</li>
+<li>The Illumina intensity files ready to be handled by <code>bcl2fastq</code>. The folder will be the parameter of <code>input</code>. Please make sure the <code>bcl2fastq</code> is installed. For <code>module</code> package available system (check by command <code>module avail</code>), the <code>bcl2fastq</code> could be load into the <code>PATH</code> by following sample code:</li>
+</ol>
+<pre><code class="language-console hljs language-shell">module load bcl2fastq/2.20</code></pre>
+<h3 id="barcodes" class="">barcodes<a href="usage.html#barcodes" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>It has to be a tab-separated file with 2 columns, and a header row as shown in the examples below.
+It will be used to do demultiplex by <a href="https://docs.qiime2.org/2021.11/plugins/available/demux/">qiime2::demux</a>.</p>
+<pre><code class="language-console hljs language-shell">sample-id   barcode-sequence
+<span class="hljs-meta">#</span><span class="language-bash">q2:types   categorical</span>
+Spinach1    TGTGCGATAACA
+Spinach2    GATTATCGACGA
+Spinach3    GCCTAGCCCAAT
+....</code></pre>
+<p>An <a href="https://github.com/jianhong/16S_pipeline/blob/main/assets/barcodes.tsv">example samplesheet</a> has been provided with the pipeline.</p>
+<h3 id="metadata" class="">Metadata<a href="usage.html#metadata" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>The <code>metadata</code> contain the information about the samples you wold like to analyze.
+It has to be a comma-separated file with 4 columns, and a header row as shown in the examples below.</p>
+<pre><code class="language-console hljs language-shell">SampleID,Character1,Character2,Character3
+SAMPLE1,A,treatment,1
+SAMPLE2,B,treatment,1
+SAMPLE3,C,control,1</code></pre>
+<div class="table-responsive"><table class="table table-bordered table-striped table-sm small">
+<thead>
+<tr>
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SampleID</code></td>
+<td>Custom sample name. This entry will be unique for each sample and should not contain any special characters.</td>
+</tr>
+<tr>
+<td><code>CharacterX</code></td>
+<td>metadata for each sample. The column name can be anything related with the samples.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="running-the-pipeline" class="">Running the pipeline<a href="usage.html#running-the-pipeline" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
+<p>The typical command for running the pipeline is as follows:</p>
+<pre><code class="language-console hljs language-shell">nextflow run jianhong/16S_pipeline --input raw --barcodes barcodes.tsv --metadata metadata.csv -profile docker</code></pre>
+<p>This will launch the pipeline with the <code>docker</code> configuration profile. See below for more information about profiles.</p>
+<p>Note that the pipeline will create the following files in your working directory:</p>
+<pre><code class="language-console hljs language-shell">work            # Directory containing the nextflow working files
+results         # Finished results (configurable, see below)
+.nextflow_log   # Log file from Nextflow
+<span class="hljs-meta"># </span><span class="language-bash">Other nextflow hidden files, eg. <span class="hljs-built_in">history</span> of pipeline runs and old logs.</span></code></pre>
+<h3 id="updating-the-pipeline" class="">Updating the pipeline<a href="usage.html#updating-the-pipeline" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:</p>
+<pre><code class="language-console hljs language-shell">nextflow pull jianhong/16S_pipeline</code></pre>
+<h3 id="reproducibility" class="">Reproducibility<a href="usage.html#reproducibility" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.</p>
+<p>First, go to the <a href="https://github.com/jianhong/16S_pipeline/releases">16S_pipeline releases page</a> and find the latest version number - numeric only (eg. <code>1.3.1</code>). Then specify this when running the pipeline with <code>-r</code> (one hyphen) - eg. <code>-r 1.3.1</code>.</p>
+<p>This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.</p>
+<h2 id="core-nextflow-arguments" class="">Core Nextflow arguments<a href="usage.html#core-nextflow-arguments" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
+<blockquote>
+<p><strong>NB:</strong> These options are part of Nextflow and use a <em>single</em> hyphen (pipeline parameters use a double-hyphen).</p>
+</blockquote>
+<h3 id="profile" class=""><code>-profile</code><a href="usage.html#profile" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>Use this parameter to choose a configuration profile. Profiles can give configuration presets for different compute environments.</p>
+<p>Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Conda) - see below. When using Biocontainers, most of these software packaging methods pull Docker containers from quay.io e.g <a href="https://quay.io/repository/biocontainers/fastqc">FastQC</a> except for Singularity which directly downloads Singularity images via https hosted by the <a href="https://depot.galaxyproject.org/singularity/">Galaxy project</a> and Conda which downloads and installs software locally from <a href="https://bioconda.github.io/">Bioconda</a>.</p>
+<blockquote>
+<p>We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.</p>
+</blockquote>
+<p>The pipeline also dynamically loads configurations from <a href="https://github.com/nf-core/configs">https://github.com/nf-core/configs</a> when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to see if your system is available in these configs please see the <a href="https://github.com/nf-core/configs#documentation">nf-core/configs documentation</a>.</p>
+<p>Note that multiple profiles can be loaded, for example: <code>-profile test,docker</code> - the order of arguments is important!
+They are loaded in sequence, so later profiles can overwrite earlier profiles.</p>
+<p>If <code>-profile</code> is not specified, the pipeline will run locally and expect all software to be installed and available on the <code>PATH</code>. This is <em>not</em> recommended.</p>
+<ul>
+<li><code>docker</code><ul>
+<li>A generic configuration profile to be used with <a href="https://docker.com/">Docker</a></li>
+</ul>
+</li>
+<li><code>singularity</code><ul>
+<li>A generic configuration profile to be used with <a href="https://sylabs.io/docs/">Singularity</a></li>
+</ul>
+</li>
+<li><code>podman</code><ul>
+<li>A generic configuration profile to be used with <a href="https://podman.io/">Podman</a></li>
+</ul>
+</li>
+<li><code>shifter</code><ul>
+<li>A generic configuration profile to be used with <a href="https://nersc.gitlab.io/development/shifter/how-to-use/">Shifter</a></li>
+</ul>
+</li>
+<li><code>charliecloud</code><ul>
+<li>A generic configuration profile to be used with <a href="https://hpc.github.io/charliecloud/">Charliecloud</a></li>
+</ul>
+</li>
+<li><code>conda</code><ul>
+<li>A generic configuration profile to be used with <a href="https://conda.io/docs/">Conda</a>. Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter or Charliecloud.</li>
+</ul>
+</li>
+<li><code>test</code><ul>
+<li>A profile with a complete configuration for automated testing</li>
+<li>Includes links to test data so needs no other parameters</li>
+</ul>
+</li>
+</ul>
+<h3 id="resume" class=""><code>-resume</code><a href="usage.html#resume" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>Specify this when restarting a pipeline. Nextflow will used cached results from any pipeline steps where the inputs are the same, continuing from where it got to previously.</p>
+<p>You can also supply a run name to resume a specific run: <code>-resume [run-name]</code>. Use the <code>nextflow log</code> command to show previous run names.</p>
+<h3 id="c" class=""><code>-c</code><a href="usage.html#c" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>Specify the path to a specific config file (this is a core Nextflow command). See the <a href="https://nf-co.re/usage/configuration">nf-core website documentation</a> for more information.</p>
+<h2 id="custom-configuration" class="">Custom configuration<a href="usage.html#custom-configuration" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
+<h3 id="resource-requests" class="">Resource requests<a href="usage.html#resource-requests" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18">here</a> it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.</p>
+<p>For example, if the nf-core/rnaseq pipeline is failing after multiple re-submissions of the <code>STAR_ALIGN</code> process due to an exit code of <code>137</code> this would indicate that there is an out of memory issue:</p>
+<pre><code class="language-console hljs language-shell">[62/149eb0] NOTE: Process `RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)` terminated with an error exit status (137) -- Execution is retried (1)
+Error executing process &gt; 'RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)'
+
+Caused by:
+    Process `RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)` terminated with an error exit status (137)
+
+Command executed:
+    STAR \
+        --genomeDir star \
+        --readFilesIn WT_REP1_trimmed.fq.gz  \
+        --runThreadN 2 \
+        --outFileNamePrefix WT_REP1. \
+        &lt;TRUNCATED&gt;
+
+Command exit status:
+    137
+
+Command output:
+    (empty)
+
+Command error:
+    .command.sh: line 9:  30 Killed    STAR --genomeDir star --readFilesIn WT_REP1_trimmed.fq.gz --runThreadN 2 --outFileNamePrefix WT_REP1. &lt;TRUNCATED&gt;
+Work dir:
+    /home/pipelinetest/work/9d/172ca5881234073e8d76f2a19c88fb
+
+Tip: you can replicate the issue by changing to the process work dir and entering the command `bash .command.run`</code></pre>
+<p>To bypass this error you would need to find exactly which resources are set by the <code>STAR_ALIGN</code> process. The quickest way is to search for <code>process STAR_ALIGN</code> in the <a href="https://github.com/nf-core/rnaseq/search?q=process+STAR_ALIGN">nf-core/rnaseq Github repo</a>. We have standardised the structure of Nextflow DSL2 pipelines such that all module files will be present in the <code>modules/</code> directory and so based on the search results the file we want is <code>modules/nf-core/software/star/align/main.nf</code>. If you click on the link to that file you will notice that there is a <code>label</code> directive at the top of the module that is set to <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/modules/nf-core/software/star/align/main.nf#L9"><code>label process_high</code></a>. The <a href="https://www.nextflow.io/docs/latest/process.html#label">Nextflow <code>label</code></a> directive allows us to organise workflow processes in separate groups which can be referenced in a configuration file to select and configure subset of processes having similar computing requirements. The default values for the <code>process_high</code> label are set in the pipeline's <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L33-L37"><code>base.config</code></a> which in this case is defined as 72GB. Providing you haven't set any other standard nf-core parameters to <strong>cap</strong> the <a href="https://nf-co.re/usage/configuration#max-resources">maximum resources</a> used by the pipeline then we can try and bypass the <code>STAR_ALIGN</code> process failure by creating a custom config file that sets at least 72GB of memory, in this case increased to 100GB. The custom config below can then be provided to the pipeline via the <a href="usage.html#-c"><code>-c</code></a> parameter as highlighted in previous sections.</p>
+<pre><code class="language-groovy hljs">process {
+    <span class="hljs-symbol">withName:</span> STAR_ALIGN {
+        memory = <span class="hljs-number">100.</span>GB
+    }
+}</code></pre>
+<blockquote>
+<p><strong>NB:</strong> We specify just the process name i.e. <code>STAR_ALIGN</code> in the config file and not the full task name string that is printed to screen in the error message or on the terminal whilst the pipeline is running i.e. <code>RNASEQ:ALIGN_STAR:STAR_ALIGN</code>. You may get a warning suggesting that the process selector isn't recognised but you can ignore that if the process name has been specified correctly. This is something that needs to be fixed upstream in core Nextflow.</p>
+</blockquote>
+<h3 id="updating-containers" class="">Updating containers<a href="usage.html#updating-containers" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>The <a href="https://www.nextflow.io/docs/latest/dsl2.html">Nextflow DSL2</a> implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. If for some reason you need to use a different version of a particular tool with the pipeline then you just need to identify the <code>process</code> name and override the Nextflow <code>container</code> definition for that process using the <code>withName</code> declaration. For example, in the <a href="https://nf-co.re/viralrecon">nf-core/viralrecon</a> pipeline a tool called <a href="https://github.com/cov-lineages/pangolin">Pangolin</a> has been used during the COVID-19 pandemic to assign lineages to SARS-CoV-2 genome sequenced samples. Given that the lineage assignments change quite frequently it doesn't make sense to re-release the nf-core/viralrecon everytime a new version of Pangolin has been released. However, you can override the default container used by the pipeline by creating a custom config file and passing it as a command-line argument via <code>-c custom.config</code>.</p>
+<ol>
+<li>
+<p>Check the default version used by the pipeline in the module file for <a href="https://github.com/nf-core/viralrecon/blob/a85d5969f9025409e3618d6c280ef15ce417df65/modules/nf-core/software/pangolin/main.nf#L14-L19">Pangolin</a></p>
+</li>
+<li>
+<p>Find the latest version of the Biocontainer available on <a href="https://quay.io/repository/biocontainers/pangolin?tag=latest&amp;tab=tags">Quay.io</a></p>
+</li>
+<li>
+<p>Create the custom config accordingly:</p>
+<ul>
+<li>
+<p>For Docker:</p>
+<pre><code class="language-groovy hljs">  process {
+      <span class="hljs-symbol">withName:</span> PANGOLIN {
+          container = <span class="hljs-string">'quay.io/biocontainers/pangolin:3.0.5--pyhdfd78af_0'</span>
+      }
+  }</code></pre>
+</li>
+<li>
+<p>For Singularity:</p>
+<pre><code class="language-groovy hljs">  process {
+      <span class="hljs-symbol">withName:</span> PANGOLIN {
+          container = <span class="hljs-string">'https://depot.galaxyproject.org/singularity/pangolin:3.0.5--pyhdfd78af_0'</span>
+      }
+  }</code></pre>
+</li>
+<li>
+<p>For Conda:</p>
+<pre><code class="language-groovy hljs">  process {
+      <span class="hljs-symbol">withName:</span> PANGOLIN {
+          conda = <span class="hljs-string">'bioconda::pangolin=3.0.5'</span>
+      }
+  }</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>NB:</strong> If you wish to periodically update individual tool-specific results (e.g. Pangolin) generated by the pipeline then you must ensure to keep the <code>work/</code> directory otherwise the <code>-resume</code> ability of the pipeline will be compromised and it will restart from scratch.</p>
+</blockquote>
+<h3 id="nf-coreconfigs" class="">nf-core/configs<a href="usage.html#nf-coreconfigs" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<p>In most cases, you will only need to create a custom config as a one-off but if you and others within your organisation are likely to be running nf-core pipelines regularly and need to use the same settings regularly it may be a good idea to request that your custom config file is uploaded to the <code>nf-core/configs</code> git repository. Before you do this please can you test that the config file works with your pipeline of choice using the <code>-c</code> parameter. You can then create a pull request to the <code>nf-core/configs</code> repository with the addition of your config file, associated documentation file (see examples in <a href="https://github.com/nf-core/configs/tree/master/docs"><code>nf-core/configs/docs</code></a>), and amending <a href="https://github.com/nf-core/configs/blob/master/nfcore_custom.config"><code>nfcore_custom.config</code></a> to include your custom profile.</p>
+<p>See the main <a href="https://www.nextflow.io/docs/latest/config.html">Nextflow documentation</a> for more information about creating your own configuration files.</p>
+<p>If you have any questions or issues please send us a message on <a href="https://nf-co.re/join/slack">Slack</a> on the <a href="https://nfcore.slack.com/channels/configs"><code>#configs</code> channel</a>.</p>
+<h2 id="running-in-the-background" class="">Running in the background<a href="usage.html#running-in-the-background" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
+<p>Nextflow handles job submissions and supervises the running jobs. The Nextflow process must run until the pipeline is finished.</p>
+<p>The Nextflow <code>-bg</code> flag launches Nextflow in the background, detached from your terminal so that the workflow does not stop if you log out of your session. The logs are saved to a file.</p>
+<p>Alternatively, you can use <code>screen</code> / <code>tmux</code> or similar tool to create a detached session which you can log back into at a later time.
+Some HPC setups also allow you to run nextflow within a cluster job submitted your job scheduler (from where it submits more jobs).</p>
+<h2 id="nextflow-memory-requirements" class="">Nextflow memory requirements<a href="usage.html#nextflow-memory-requirements" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
+<p>In some cases, the Nextflow Java virtual machines can start to request a large amount of memory.
+We recommend adding the following line to your environment to limit this (typically in <code>~/.bashrc</code> or <code>~./bash_profile</code>):</p>
+<pre><code class="language-console hljs language-shell">NXF_OPTS='-Xms1g -Xmx4g'</code></pre></div></div><div class="col-12 col-lg-3 ps-2"><div class="side-sub-subnav sticky-top"><nav class="toc pt-2 auto-toc border-start d-print-none"><strong class="ms-3 d-inline-block w-100 text-secondary border-bottom">On this page</strong>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1  active " href="usage.html#introduction">Introduction</a>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1 " href="usage.html#raw-reads-barcodes-and-metadata">Raw reads, barcodes and metadata</a>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1 " href="usage.html#raw-reads">Raw reads</a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#barcodes">barcodes</a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#metadata">Metadata</a>
+</nav>
+
+<a class="nav-link scroll_to_link py-1 " href="usage.html#running-the-pipeline">Running the pipeline</a>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1 " href="usage.html#updating-the-pipeline">Updating the pipeline</a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#reproducibility">Reproducibility</a>
+</nav>
+
+<a class="nav-link scroll_to_link py-1 " href="usage.html#core-nextflow-arguments">Core Nextflow arguments</a>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1 " href="usage.html#profile"><code>-profile</code></a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#resume"><code>-resume</code></a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#c"><code>-c</code></a>
+</nav>
+
+<a class="nav-link scroll_to_link py-1 " href="usage.html#custom-configuration">Custom configuration</a>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1 " href="usage.html#resource-requests">Resource requests</a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#updating-containers">Updating containers</a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#nf-coreconfigs">nf-core/configs</a>
+</nav>
+
+<a class="nav-link scroll_to_link py-1 " href="usage.html#running-in-the-background">Running in the background</a>
+<a class="nav-link scroll_to_link py-1 " href="usage.html#nextflow-memory-requirements">Nextflow memory requirements</a>
+</nav></nav>
+<p class="small text-end mt-3"><a href="usage.html#" class="text-muted">
+<i class="fas fa-arrow-to-top" aria-hidden="true"></i> Back to top</a></p></nav></div></div></div></div></div>
+
+<footer class="subfooter"><div class="container"><p class="mb-0"><i class="fab fa-github" aria-hidden="true"></i> Read this page on GitHub: <code><a href="https://github.com/jianhong/16S_pipeline/blob/dev/docs/usage.md">https://github.com/jianhong/16S_pipeline/blob/dev/docs/usage.md</a></code></p></div></footer>
+
+
+<script type="text/javascript">
+  $(function() {
+    // Plot hover vertical line
+    // https://stackoverflow.com/a/45172506/713980
+    Chart.defaults.LineWithLine = Chart.defaults.line;
+    Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+      draw: function(ease) {
+        Chart.controllers.line.prototype.draw.call(this, ease);
+
+        if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+          var activePoint = this.chart.tooltip._active[0],
+            ctx = this.chart.ctx,
+            x = activePoint.tooltipPosition().x,
+            topY = this.chart.scales['y-axis-0'].top,
+            bottomY = this.chart.scales['y-axis-0'].bottom;
+
+          // draw line
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(x, topY);
+          ctx.lineTo(x, bottomY);
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = '#999';
+          ctx.stroke();
+          ctx.restore();
+        } else {
+          $('#clones_header').text('clones in last ');
+          $('#clones_count').text('0');
+        }
+      }
+    });
+
+    // Make the plot
+    var ctx = document.getElementById('clones_plot').getContext('2d');
+    new Chart(ctx, {
+      data: {
+        datasets: [{
+          backgroundColor: 'rgba(84, 171, 106, 0.2)',
+          borderColor: 'rgba(84, 171, 106, 1)',
+          pointRadius: 0,
+          pointHoverBorderColor: 'rgba(84, 171, 106, 0)', // transparent
+          pointHoverBackgroundColor: 'rgba(84, 171, 106, 0)', // transparent
+          data: [
+                      ]
+        }],
+      },
+      type: 'LineWithLine',
+      options: {
+        onClick: function(e) {
+          window.location.href = '/16S_pipeline/stats';
+        },
+        elements: {
+          point: {
+            radius: 0,
+            hitRadius: 3,
+            hoverRadius: 3
+          },
+          line: {
+            borderWidth: 2,
+            tension: 0 // disables bezier curves
+          }
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            display: false
+          }],
+          yAxes: [{
+            display: false
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false,
+          mode: 'x',
+          intersect: false,
+          custom: function(tooltipModel) {
+            tooltipModel.opacity = 0
+          },
+          callbacks: {
+            // Use the footer callback to display the sum of the items showing in the tooltip
+            footer: function(tooltipItems, data) {
+              $('#clones_header').text('clones - ' + tooltipItems[0]['label']);
+              $('#clones_count').text(tooltipItems[0]['value']);
+            },
+          }
+        },
+      }
+    });
+  });
+</script>
+
+
+
+</body></html>

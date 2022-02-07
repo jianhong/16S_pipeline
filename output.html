@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>jianhong/16S_pipeline</title>
+  <meta name="description" content="This pipeline analyses data for microbiome 16S data.">
+  <meta name="author" content="Phil Ewels">
+  <meta name="color-scheme" content="light dark">
+  <link rel="shortcut icon" href="assets/nf-core-logo-square.png" type="image/png">
+  <link rel="alternate" type="application/rss+xml" title="nf-core: Events" href="./events/rss">
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/471b59d3f8.js"></script>
+  <script src="assets/jquery.min.js"></script>
+  <script src="assets/bootstrap.bundle.min.js"></script>
+  <script src="assets/highlight.min.js"></script>
+  <script src="assets/groovy.min.js"></script>
+  <!-- Page-specific CSS and JS -->
+      <script src="assets/moment.js"></script>
+    <script src="assets/Chart.min.js"></script>
+    <link href="assets/Chart.min.css" rel="stylesheet">
+    <script src="assets/hammer.min.js"></script>
+    <script src="assets/chartjs-plugin-zoom.min.js"></script>
+    <!-- NO CURRENT VERSION ON NPM --> <script src="assets/canvas2svg.js"></script><!-- NO CURRENT VERSION ON NPM -->
+    <script src="assets/FileSaver.min.js"></script>
+    <script src="assets/jquery.tablesorter.min.js"></script>
+
+  <!-- Custom nf-core CSS and JS -->
+  <link href="assets/nf-core-light.css" rel="stylesheet" id="theme-stylesheet">
+  <script src="assets/nf-core.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+      </script>
+<style type="text/css">/* Chart.js */
+@keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style>
+
+</head>
+
+
+<body tabindex="0" data-new-gr-c-s-check-loaded="14.1047.0" data-gr-ext-installed="">
+  <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light shadow-sm site-nav d-print-none">
+    <div class="container-fluid">
+      <a class="navbar-brand d-md-none" href="./">
+        <img height="25px" src="assets/nf-core-logo.svg" class="hide-dark">
+        <img height="25px" src="assets/nf-core-logo-darkbg.svg" class="hide-light">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarCollapse">
+        <ul class="navbar-nav">
+          <li class="nav-item p-1">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="usage.html">Usage docs</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="parameters.html">Parameters</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="output.html">Output docs</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="multiqc.html">Multiqc</a>
+          </li>
+        </ul>
+        <hr class="d-md-none">
+      </div>
+    </div>
+  </nav>
+
+  <div class="mainpage">
+    <div class="mainpage-heading triangle-down">
+      <div class="container">
+        <h1 class="display-2">jianhong/<br class="d-sm-none">16S_pipeline</h1>
+        <p class="lead">This pipeline analyses data for 16S microbiome.</p>
+      </div>
+    </div>
+
+  <div class="container-fluid mainpage-subheader-heading chevron-down">
+    <div class="container text-center">
+      <p>
+        <a href="https://github.com/jianhong/16S_pipeline" class="btn btn-success btn-lg d-print-none">
+          <i class="fab fa-github" aria-hidden="true"></i> https://github.com/jianhong/16S_pipeline
+        </a>
+      </p>
+    </div>
+  </div>
+
+<div class="container-xxl main-content">
+
+  <ul class="nav nav-fill nfcore-subnav justify-content-around d-print-none">
+    <li class="nav-item">
+      <a class="nav-link" href="index.html"><i class="fas fa-sign-in me-1" aria-hidden="true"></i> Introduction</a>
+    </li>
+        <li class="nav-item">
+      <a class="nav-link" href="usage.html"><i class="far fa-book me-1" aria-hidden="true"></i> Usage docs</a>
+    </li>
+          <li class="nav-item">
+        <a class="nav-link" href="parameters.html"><i class="far fa-book me-1" aria-hidden="true"></i> Parameter docs</a>
+      </li>
+        <li class="nav-item">
+      <a class="nav-link active" href="output.html"><i class="far fa-book me-1" aria-hidden="true"></i> Output docs</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="multiqc.html"><i class="far fa-book me-1" aria-hidden="true"></i> MultiQC </a>
+    </li>
+
+  </ul>
+
+  <div class="row flex-wrap-reverse flex-lg-wrap ms-lg-5"><div class="col-12 col-lg-9"><div class="rendered-markdown pipeline-page-content"><h1 id="introduction" class="">Introduction<a href="output.html#introduction" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h1>
+<p>This document describes the output produced by the pipeline. Most of the plots are taken from the MultiQC report, which summarises results at the end of the pipeline.</p>
+<p>The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.</p>
+<!-- TODO nf-core: Write this documentation describing your workflow's output -->
+<h2 id="pipeline-overview" class="">Pipeline overview<a href="output.html#pipeline-overview" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
+<p>The pipeline is built using <a href="https://www.nextflow.io/">Nextflow</a> and processes data using the following steps:</p>
+<ul>
+<li><a href="output.html#remove-primers">trimmomatic</a> - Remove primers</li>
+<li><a href="output.html#sync-barcodes"><code>fastq_pair_filter.py</code></a> - Sync barcodes</li>
+<li><a href="output.html#demultiplex"><code>qiime2::demux</code></a> - Demultiplex</li>
+<li><a href="output.html#filter-reads-and-run-data2">DATA2</a> - Filter reads and run DATA2</li>
+<li><a href="output.html#fastqc">FastQC</a> - Raw read QC</li>
+<li><a href="output.html#multiqc">MultiQC</a> - Aggregate report describing results and QC from the whole pipeline</li>
+<li><a href="output.html#pipeline-information">Pipeline information</a> - Report metrics generated during the workflow execution</li>
+</ul>
+<h3 id="remove-primers" class="">Remove primers<a href="output.html#remove-primers" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>1_remove_primers/ *.fastq.gz</code>: Zip archive containing primer removed fastq files.</li>
+</ul>
+</details>
+<p>Removing primers from Illumina data (Paired-End Fastq) using <a href="http://www.usadellab.org/cms/?page=trimmomatic"><code>trimmomatic</code></a>.
+This step is recommended by dada2 in their FAQ on chimera checking.</p>
+<h3 id="sync-barcodes" class="">Sync barcodes<a href="output.html#sync-barcodes" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>2_sync_barcodes/ *.fastq.gz</code>: Zip archive containing proper paired fastq files.</li>
+</ul>
+</details>
+<p>Make sure forward, reverse, and index read files are all aligned (i.e. line 1 of each corresponds to each other) using <a href="https://gist.github.com/588841/"><code>fastq_pair_filter.py</code></a>.</p>
+<h3 id="demultiplex" class="">Demultiplex<a href="output.html#demultiplex" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>3_demultiplex/demuxd_reads/ *.fastq.gz</code>: Zip archive containing demultiplexed fastq files.</li>
+<li><code>3_demultiplex/ *.qza</code>: Qza archive containing qiime2 files.</li>
+</ul>
+</details>
+<p>Break fastq files (F and R) into individual samples based on barcodes using <a href="https://docs.qiime2.org/2021.11/plugins/available/demux/"><code>qiime2::demux</code></a>.</p>
+<h3 id="filter-reads-and-run-data2" class="">Filter reads and run DATA2<a href="output.html#filter-reads-and-run-data2" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>4_filter/&lt;sampleid&gt;/ *.fastq.gz</code>: Zip archive containing filtered fastq files.</li>
+<li><code>4_filter/ *.png</code>: QC plots.</li>
+<li><code>4_filter/ *.rds</code>: R object from DATA2 for downstream analysis.</li>
+</ul>
+<p></p>
+</details>
+<p>This step merges paired reads, constructs a sequence table, and assigns taxonomy using the silva database. The output is a phyloseq object, as well as the sequence table and taxonomy table.</p>
+<h3 id="fastqc" class="">FastQC<a href="output.html#fastqc" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>fastqc/</code><ul>
+<li><code>*_fastqc.html</code>: FastQC report containing quality metrics.</li>
+<li><code>*_fastqc.zip</code>: Zip archive containing the FastQC report, tab-delimited data file and plot images.</li>
+</ul>
+</li>
+</ul>
+</details>
+<p><a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> gives general quality metrics about your sequenced reads. It provides information about the quality score distribution across your reads, per base sequence content (%A/T/G/C), adapter contamination and overrepresented sequences. For further reading and documentation see the <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">FastQC help pages</a>.</p>
+<p><img src="./assets/mqc_fastqc_counts.png" alt="MultiQC - FastQC sequence counts plot"></p>
+<p><img src="./assets/mqc_fastqc_quality.png" alt="MultiQC - FastQC mean quality scores plot"></p>
+<p><img src="./assets/mqc_fastqc_adapter.png" alt="MultiQC - FastQC adapter content plot"></p>
+<blockquote>
+<p><strong>NB:</strong> The FastQC plots displayed in the MultiQC report shows <em>untrimmed</em> reads. They may contain adapter sequence and potentially regions with low quality.</p>
+</blockquote>
+<h3 id="multiqc" class="">MultiQC<a href="output.html#multiqc" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>multiqc/</code><ul>
+<li><code>multiqc_report.html</code>: a standalone HTML file that can be viewed in your web browser.</li>
+<li><code>multiqc_data/</code>: directory containing parsed statistics from the different tools used in the pipeline.</li>
+<li><code>multiqc_plots/</code>: directory containing static images from the report in various formats.</li>
+</ul>
+</li>
+</ul>
+</details>
+<p><a href="http://multiqc.info/">MultiQC</a> is a visualization tool that generates a single HTML report summarising all samples in your project. Most of the pipeline QC results are visualised in the report and further statistics are available in the report data directory.</p>
+<p>Results generated by MultiQC collate pipeline QC from supported tools e.g. FastQC. The pipeline has special steps which also allow the software versions to be reported in the MultiQC output for future traceability. For more information about how to use MultiQC reports, see <a href="http://multiqc.info/">http://multiqc.info</a>.</p>
+<h3 id="pipeline-information" class="">Pipeline information<a href="output.html#pipeline-information" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>pipeline_info/</code><ul>
+<li>Reports generated by Nextflow: <code>execution_report.html</code>, <code>execution_timeline.html</code>, <code>execution_trace.txt</code> and <code>pipeline_dag.dot</code>/<code>pipeline_dag.svg</code>.</li>
+<li>Reports generated by the pipeline: <code>pipeline_report.html</code>, <code>pipeline_report.txt</code> and <code>software_versions.yml</code>. The <code>pipeline_report*</code> files will only be present if the <code><span class="text-nowrap">--email</span></code> / <code><span class="text-nowrap">--email_on_fail</span></code> parameter's are used when running the pipeline.</li>
+<li>Reformatted samplesheet files used as input to the pipeline: <code>samplesheet.valid.csv</code>.</li>
+</ul>
+</li>
+</ul>
+</details>
+<p><a href="https://www.nextflow.io/docs/latest/tracing.html">Nextflow</a> provides excellent functionality for generating various reports relevant to the running and execution of the pipeline. This will allow you to troubleshoot errors with the running of the pipeline, and also provide you with other information such as launch commands, run times and resource usage.</p></div></div><div class="col-12 col-lg-3 ps-2"><div class="side-sub-subnav sticky-top"><nav class="toc pt-2 auto-toc border-start d-print-none"><strong class="ms-3 d-inline-block w-100 text-secondary border-bottom">On this page</strong>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1  active " href="output.html#introduction">Introduction</a>
+<nav class="nav flex-column flex-nowrap">
+<a class="nav-link scroll_to_link py-1 " href="output.html#pipeline-overview">Pipeline overview</a>
+  <nav class="nav flex-column flex-nowrap">
+  <a class="nav-link scroll_to_link py-1 " href="output.html#remove-primers">Remove primers</a>
+  <a class="nav-link scroll_to_link py-1 " href="output.html#sync-barcodes">Sync barcodes</a>
+  <a class="nav-link scroll_to_link py-1 " href="output.html#demultiplex">Demultiplex</a>
+  <a class="nav-link scroll_to_link py-1 " href="output.html#filter-reads-and-run-data2">Filter reads and run DATA2</a>
+  <a class="nav-link scroll_to_link py-1 " href="output.html#fastqc">FastQC</a>
+  <a class="nav-link scroll_to_link py-1 " href="output.html#multiqc">MultiQC</a>
+  <a class="nav-link scroll_to_link py-1 " href="output.html#pipeline-information">Pipeline information</a>
+  </nav>
+</nav>
+</nav>
+      <div class="text-center ms-1">
+        <button class="btn btn-sm btn-outline-secondary expand-details w-100">
+          <span class=""><i class="fas fa-arrows-v" aria-hidden="true"></i> Expand all output file details</span>
+        </button>
+      </div><p class="small text-end mt-3"><a href="output.html#" class="text-muted"><i class="fas fa-arrow-to-top" aria-hidden="true"></i> Back to top</a></p></nav></div></div></div></div></div>
+
+<footer class="subfooter"><div class="container"><p class="mb-0"><i class="fab fa-github" aria-hidden="true"></i> Read this page on GitHub: <code><a href="https://github.com/jianhong/16S_pipeline/blob/main/README.md">https://github.com/jianhong/16S_pipeline/blob/main/README.md</a></code></p></div></footer>
+
+<script type="text/javascript">
+  $(function() {
+    // Plot hover vertical line
+    // https://stackoverflow.com/a/45172506/713980
+    Chart.defaults.LineWithLine = Chart.defaults.line;
+    Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+      draw: function(ease) {
+        Chart.controllers.line.prototype.draw.call(this, ease);
+
+        if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+          var activePoint = this.chart.tooltip._active[0],
+            ctx = this.chart.ctx,
+            x = activePoint.tooltipPosition().x,
+            topY = this.chart.scales['y-axis-0'].top,
+            bottomY = this.chart.scales['y-axis-0'].bottom;
+
+          // draw line
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(x, topY);
+          ctx.lineTo(x, bottomY);
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = '#999';
+          ctx.stroke();
+          ctx.restore();
+        } else {
+          $('#clones_header').text('clones in last ');
+          $('#clones_count').text('0');
+        }
+      }
+    });
+
+    // Make the plot
+    var ctx = document.getElementById('clones_plot').getContext('2d');
+    new Chart(ctx, {
+      data: {
+        datasets: [{
+          backgroundColor: 'rgba(84, 171, 106, 0.2)',
+          borderColor: 'rgba(84, 171, 106, 1)',
+          pointRadius: 0,
+          pointHoverBorderColor: 'rgba(84, 171, 106, 0)', // transparent
+          pointHoverBackgroundColor: 'rgba(84, 171, 106, 0)', // transparent
+          data: [
+                      ]
+        }],
+      },
+      type: 'LineWithLine',
+      options: {
+        onClick: function(e) {
+          window.location.href = '/16S_pipeline/stats';
+        },
+        elements: {
+          point: {
+            radius: 0,
+            hitRadius: 3,
+            hoverRadius: 3
+          },
+          line: {
+            borderWidth: 2,
+            tension: 0 // disables bezier curves
+          }
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            display: false
+          }],
+          yAxes: [{
+            display: false
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false,
+          mode: 'x',
+          intersect: false,
+          custom: function(tooltipModel) {
+            tooltipModel.opacity = 0
+          },
+          callbacks: {
+            // Use the footer callback to display the sum of the items showing in the tooltip
+            footer: function(tooltipItems, data) {
+              $('#clones_header').text('clones - ' + tooltipItems[0]['label']);
+              $('#clones_count').text(tooltipItems[0]['value']);
+            },
+          }
+        },
+      }
+    });
+  });
+</script>
+
+
+
+</body></html>
