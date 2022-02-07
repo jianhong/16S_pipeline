@@ -15,11 +15,14 @@ indent_size = 2
 insert_final_newline = unset
 
 [/assets/*.{tsv,csv}]
-end_of_line = unset
 indent_style = unset
 indent_size = unset
 
 [singularity.def]
+indent_style = unset
+indent_size = unset
+
+[/bin/sync_paired_end_reads.py]
 indent_style = unset
 indent_size = unset
 
