@@ -52,6 +52,16 @@ Maintainer Jianhong Ou <jianhong.ou@duke.edu>
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /miniconda3 && \
     ln -s /miniconda3/bin/conda /usr/bin/conda
 
+    echo "install fastqc, trimmomatic"
+    conda config --append channels conda-forge && \
+    conda create -y --name fastqc bioconda::fastqc=0.11.9 && \
+    conda create -y --name trimmomatic bioconda::trimmomatic=0.39 && \
+    conda create -y --name multiqc bioconda::multiqc=1.11 && \
+    wget https://data.qiime2.org/distro/core/qiime2-2021.11-py38-linux-conda.yml && \
+    conda env create -n qiime2 --file qiime2-2021.11-py38-linux-conda.yml && \
+    export PATH=${PATH}:/miniconda3/envs/fastqc/bin:/miniconda3/envs/trimmomatic/bin:/miniconda3/envs/qiime2/bin:/miniconda3/envs/multiqc/bin && \
+    Rscript -e "install.packages('BiocManager', repos='https://cloud.r-project.org'); BiocManager::install(c('dada2', 'phyloseq'), update=TRUE, ask=FALSE)"
+
 	# clean up
 	rm -rf ${HOME}/*
 	apt-get clean && \
