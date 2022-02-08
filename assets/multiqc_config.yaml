@@ -120,12 +120,12 @@ custom_data:
     reads_quality_profile_forward:
         parent_id: 'dada2_qc'
         section_name: 'Forward reads quality profile summary'
-        description: "The forward reads quality profile summary."
+        description: "The forward reads quality profile summary. It helps for the reads trim. The distribution of final reads length should be length of forward + reverse after trimming by dada2."
         file_format: "png"
     reads_quality_profile_reverse:
         parent_id: 'dada2_qc'
         section_name: 'Reverse reads quality profile summary'
-        description: "The reverse reads quality profile summary."
+        description: "The reverse reads quality profile summary. It helps for the reads trim."
         file_format: "png"
     estimated_error_rates_forward:
         parent_id: 'dada2_qc'
