@@ -185,7 +185,7 @@ process {
 }
 ```
 
-> **NB:** We specify just the process name i.e. `STAR_ALIGN` in the config file and not the full task name string that is printed to screen in the error message or on the terminal whilst the pipeline is running i.e. `RNASEQ:ALIGN_STAR:STAR_ALIGN`. You may get a warning suggesting that the process selector isn't recognised but you can ignore that if the process name has been specified correctly. This is something that needs to be fixed upstream in core Nextflow.
+> **NB:** We specify just the process name i.e. `BCL2FASTQ` in the config file and not the full task name string that is printed to screen in the error message or on the terminal whilst the pipeline is running i.e. `NFCORE_MICROBIOME:MICROBIOME:BCL2FASTQ`. You may get a warning suggesting that the process selector isn't recognised but you can ignore that if the process name has been specified correctly. This is something that needs to be fixed upstream in core Nextflow.
 
 ### Module specific parameters
 
