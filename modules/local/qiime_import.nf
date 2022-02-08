@@ -8,18 +8,24 @@ process QIIME_IMPORT {
 
     input:
     tuple val(meta), path(reads1, stageAs: "sync/forward.fastq.gz"), path(reads2, stageAs: "sync/reverse.fastq.gz"), path(index, stageAs: "sync/barcodes.fastq.gz")
+    val single_end
 
     output:
-    tuple val(meta), path("${prefix}_emp-paired-end-sequences.qza")       , emit: reads
+    tuple val(meta), path("${prefix}_emp-sequences.qza")       , emit: reads
     path "versions.yml", emit: versions
 
     script:
     def args   = task.ext.args ?: ''
-    prefix = task.ext.prefix ?: "${meta.id}"
+    prefix     = task.ext.prefix ?: "${meta.id}"
+    def type   = single_end ? 'EMPSingleEndSequences' : 'EMPPairedEndSequences'
     """
+    if [ "${single_end}" == "true" ]; then
+        mv sync/forward.fastq.gz sync/sequences.fastq.gz
+    fi
     qiime tools import \\
+        --type $type \\
         --input-path sync \\
-        --output-path ${prefix}_emp-paired-end-sequences.qza \\
+        --output-path ${prefix}_emp-sequences.qza \\
         $args
 
     cat <<-END_VERSIONS > versions.yml

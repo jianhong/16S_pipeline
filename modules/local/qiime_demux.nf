@@ -9,6 +9,7 @@ process QIIME_DEMUX {
     input:
     tuple val(meta), path(qza)
     path barcodes
+    val single_end
 
     output:
     tuple val(meta), path("${prefix}_demux-full.qza")   , emit: reads
@@ -25,12 +26,21 @@ process QIIME_DEMUX {
     export TMP=./tmp
     export TEMP=./tmp
 
-    qiime demux emp-paired \\
-        --m-barcodes-file $barcodes \\
-        --i-seqs $qza \\
-        --o-per-sample-sequences ${prefix}_demux-full.qza \\
-        --o-error-correction-details ${prefix}_demux-details.qza \\
-        $args
+    if [ "${single_end}" == "true" ]; then
+        qiime demux emp-single \\
+            --m-barcodes-file $barcodes \\
+            --i-seqs $qza \\
+            --o-per-sample-sequences ${prefix}_demux-full.qza \\
+            --o-error-correction-details ${prefix}_demux-details.qza \\
+            $args
+    else
+        qiime demux emp-paired \\
+            --m-barcodes-file $barcodes \\
+            --i-seqs $qza \\
+            --o-per-sample-sequences ${prefix}_demux-full.qza \\
+            --o-error-correction-details ${prefix}_demux-details.qza \\
+            $args
+    fi
 
     qiime demux summarize \\
         --i-data ${prefix}_demux-full.qza \\

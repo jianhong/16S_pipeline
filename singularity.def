@@ -60,7 +60,7 @@ Maintainer Jianhong Ou <jianhong.ou@duke.edu>
     wget https://data.qiime2.org/distro/core/qiime2-2021.11-py38-linux-conda.yml && \
     conda env create -n qiime2 --file qiime2-2021.11-py38-linux-conda.yml && \
     export PATH=${PATH}:/miniconda3/envs/fastqc/bin:/miniconda3/envs/trimmomatic/bin:/miniconda3/envs/qiime2/bin:/miniconda3/envs/multiqc/bin && \
-    Rscript -e "install.packages('BiocManager', repos='https://cloud.r-project.org'); BiocManager::install(c('dada2', 'phyloseq'), update=TRUE, ask=FALSE)"
+    Rscript -e "install.packages(c('BiocManager', 'remotes'), repos='https://cloud.r-project.org'); BiocManager::install(c('benjjneb/dada2', 'joey711/phyloseq'), update=TRUE, ask=FALSE)"
 
 	# clean up
 	rm -rf ${HOME}/*

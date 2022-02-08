@@ -90,54 +90,77 @@ workflow MICROBIOME {
     }
     //bcl_undetermined.view()
 
-    //
-    // convert reads files to format [meta, [reads1, reads2]]
-    //
-    ch_reads = bcl_undetermined.flatten()
-                        .filter{ it.simpleName =~ /_R[12]_/ }
-                        .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]}
-                        .groupTuple()
-    //ch_reads.view()
+    if(!params.skip_demultiplex){
+        //
+        // convert reads files to format [meta, [reads1, reads2]]
+        //
+        if(params.single_end){
+            ch_reads = bcl_undetermined.flatten()
+                                .filter{ it.simpleName =~ /_R1_/ }
+                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: true], it]}
+        }else{
+            ch_reads = bcl_undetermined.flatten()
+                                .filter{ it.simpleName =~ /_R[12]_/ }
+                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]}
+                                .groupTuple()
+        }
+        //ch_reads.view()
 
-    //
-    // MODULE: Run FastQC
-    //
-    if(!params.skip_fastqc){
-        FASTQC (
-            ch_reads
-        )
-        ch_versions = ch_versions.mix(FASTQC.out.versions.first())
-        ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+        //
+        // MODULE: Run FastQC
+        //
+        if(!params.skip_fastqc){
+            FASTQC (
+                ch_reads
+            )
+            ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+            ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+        }
+
+        //
+        // MODULE: trimmomatic to remove primers from raw reads
+        //
+        REMOVE_PRIMERS(ch_reads, params.single_end)
+        ch_versions = ch_versions.mix(REMOVE_PRIMERS.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(REMOVE_PRIMERS.out.log.collect().ifEmpty([]))
+
+        //
+        // MODULE: Make sure forward, reverse, and index read files are all aligned
+        //
+        if(!params.single_end){
+            ch_reads2 = bcl_undetermined.flatten()
+                                .filter{ it.simpleName =~ /_I1_/ }
+                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]}
+                                .join(REMOVE_PRIMERS.out.paired)
+            //ch_reads2.view()
+            SYNC_BARCODES(ch_reads2)
+            ch_versions = ch_versions.mix(SYNC_BARCODES.out.versions)
+            ch_reads3 = SYNC_BARCODES.out.reads
+        }else{
+            ch_reads3 = REMOVE_PRIMERS.out.paired.map{[[id:it[0].id], it[1], []]}
+                        .join(bcl_undetermined.flatten()
+                            .filter{ it.simpleName =~ /_I1_/ }
+                            .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]})
+        }
+        //ch_reads3.view()
+
+        //
+        // MODULE: demultiplex
+        //
+        QIIME_DEMULTIPLEX(ch_reads3, ch_barcodes, params.single_end)
+        ch_versions = ch_versions.mix(QIIME_DEMULTIPLEX.out.versions)
+        ch_reads4 = QIIME_DEMULTIPLEX.out.reads
+    }else{
+        ch_reads4 = bcl_undetermined.flatten()
+                            .filter{ it.simpleName =~ /_R[12]_/ }
+                            .map{[[id: 'demultiplexed'], it]}
+                            .groupTuple()
     }
-
-    //
-    // MODULE: trimmomatic to remove primers from raw reads
-    //
-    REMOVE_PRIMERS(ch_reads)
-    ch_versions = ch_versions.mix(REMOVE_PRIMERS.out.versions)
-    ch_multiqc_files = ch_multiqc_files.mix(REMOVE_PRIMERS.out.log.collect().ifEmpty([]))
-
-    //
-    // MODULE: Make sure forward, reverse, and index read files are all aligned
-    //
-    ch_reads2 = bcl_undetermined.flatten()
-                        .filter{ it.simpleName =~ /_I1_/ }
-                        .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]}
-                        .join(REMOVE_PRIMERS.out.paired)
-    //ch_reads2.view()
-    SYNC_BARCODES(ch_reads2)
-    ch_versions = ch_versions.mix(SYNC_BARCODES.out.versions)
-
-    //
-    // MODULE: demultiplex
-    //
-    QIIME_DEMULTIPLEX(SYNC_BARCODES.out.reads, ch_barcodes)
-    ch_versions = ch_versions.mix(QIIME_DEMULTIPLEX.out.versions)
 
     //
     // MODULE: Filter
     //
-    FILTERING(QIIME_DEMULTIPLEX.out.reads)
+    FILTERING(ch_reads4, params.single_end)
     ch_versions = ch_versions.mix(FILTERING.out.versions)
     ch_multiqc_files = ch_multiqc_files.mix(FILTERING.out.qc.collect().ifEmpty([]))
 

@@ -10,10 +10,11 @@ workflow QIIME_DEMULTIPLEX {
     take:
     reads // [meta, R1, R2, I1]
     barcodes
+    single_end
 
     main:
-    ch_versions = QIIME_IMPORT ( reads ).versions
-    QIIME_DEMUX (QIIME_IMPORT.out.reads, barcodes)
+    ch_versions = QIIME_IMPORT ( reads, single_end ).versions
+    QIIME_DEMUX (QIIME_IMPORT.out.reads, barcodes, single_end)
     QIIME_EXPORT (QIIME_DEMUX.out.reads)
 
     emit:

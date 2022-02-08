@@ -96,6 +96,8 @@ process DADA2 {
     filtFs.s1 <- filts.s1[grepl("_F_filt",filts.s1)]
     filtRs.s1 <- filts.s1[grepl("_R_filt",filts.s1)]
 
+    PAIRED_END <- length(filtRs.s1) == length(filtFs.s1)
+
     sample.names.1 <- sapply(strsplit(basename(filtFs.s1), "_"), `[`, 1)
     saveRDS(sample.names.1, SAMPLENAMES)
 
@@ -107,52 +109,67 @@ process DADA2 {
     filts.learn.s1 <- sample(sample.names.1, 36)
 
     derepFs.s1.learn <- derepFastq(filtFs.s1[filts.learn.s1], verbose=TRUE)
-    derepRs.s1.learn <- derepFastq(filtRs.s1[filts.learn.s1], verbose=TRUE)
+    if(PAIRED_END) derepRs.s1.learn <- derepFastq(filtRs.s1[filts.learn.s1], verbose=TRUE)
 
     # Sample Inference --------------------------------------------------------
 
     dadaFs.s1.learn <- dada(derepFs.s1.learn, err=NULL, selfConsist=TRUE, multithread=NCORE)
-    dadaRs.s1.learn <- dada(derepRs.s1.learn, err=NULL, selfConsist=TRUE, multithread=NCORE)
-    rm(derepFs.s1.learn, derepRs.s1.learn)
+    if(PAIRED_END) dadaRs.s1.learn <- dada(derepRs.s1.learn, err=NULL, selfConsist=TRUE, multithread=NCORE)
+    rm(derepFs.s1.learn)
+    if(PAIRED_END) rm(derepRs.s1.learn)
 
     # # Visualize estimated error rates
     p<- plotErrors(dadaFs.s1.learn[[1]], nominalQ=TRUE)
     ggsave("dada_errors_F_s1.png", plot=p)
-    p<- plotErrors(dadaRs.s1.learn[[1]], nominalQ=TRUE)
-    ggsave("dada_errors_R_s1.png", plot=p)
-
+    if(PAIRED_END) {
+        p<- plotErrors(dadaRs.s1.learn[[1]], nominalQ=TRUE)
+        ggsave("dada_errors_R_s1.png", plot=p)
+    }
 
     # Just keep the error profiles
     errFs.s1 <- dadaFs.s1.learn[[1]][["err_out"]]
-    errRs.s1 <- dadaRs.s1.learn[[1]][["err_out"]]
-    rm(dadaFs.s1.learn, dadaRs.s1.learn)
+    if(PAIRED_END) errRs.s1 <- dadaRs.s1.learn[[1]][["err_out"]]
+    rm(dadaFs.s1.learn)
+    if(PAIRED_END) rm(dadaRs.s1.learn)
 
     # Now sample inference for entire dataset
     # Run 1
     derepFs.s1 <- vector("list", length(sample.names.1))
-    derepRs.s1 <- vector("list", length(sample.names.1))
     dadaFs.s1 <- vector("list", length(sample.names.1))
-    dadaRs.s1 <- vector("list", length(sample.names.1))
     names(dadaFs.s1) <- sample.names.1
-    names(dadaRs.s1) <- sample.names.1
     names(derepFs.s1) <- sample.names.1
-    names(derepRs.s1) <- sample.names.1
+    if(PAIRED_END){
+        derepRs.s1 <- vector("list", length(sample.names.1))
+        dadaRs.s1 <- vector("list", length(sample.names.1))
+        names(dadaRs.s1) <- sample.names.1
+        names(derepRs.s1) <- sample.names.1
+    }
+
     for (sam in sample.names.1){
         message("Processing:", sam, "\n")
         derepFs.s1[[sam]] <- derepFastq(filtFs.s1[[sam]])
-        derepRs.s1[[sam]] <- derepFastq(filtRs.s1[[sam]])
         dadaFs.s1[[sam]] <- dada(derepFs.s1[[sam]], err=errFs.s1, multithread=NCORE)
-        dadaRs.s1[[sam]] <- dada(derepRs.s1[[sam]], err=errRs.s1, multithread=NCORE)
+        if(PAIRED_END){
+            derepRs.s1[[sam]] <- derepFastq(filtRs.s1[[sam]])
+            dadaRs.s1[[sam]] <- dada(derepRs.s1[[sam]], err=errRs.s1, multithread=NCORE)
+        }
     }
 
     # Run 1: Merge Paired Reads
-    mergers.s1 <- mergePairs(dadaFs.s1, derepFs.s1, dadaRs.s1, derepRs.s1, verbose=TRUE)
-    head(mergers.s1)
-    track <- cbind(track, sapply(dadaFs.s1, getN), sapply(dadaRs.s1, getN),
-                    sapply(mergers.s1, getN))
-    # Run 1: Clear up space
-    rm(derepFs.s1, derepRs.s1, dadaFs.s1, dadaRs.s1)
-
+    if(PAIRED_END){
+        mergers.s1 <- mergePairs(dadaFs.s1, derepFs.s1, dadaRs.s1, derepRs.s1, verbose=TRUE)
+        head(mergers.s1)
+        track <- cbind(track, sapply(dadaFs.s1, getN), sapply(dadaRs.s1, getN),
+                        sapply(mergers.s1, getN))
+        colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged")
+        # Run 1: Clear up space
+        rm(derepFs.s1, derepRs.s1, dadaFs.s1, dadaRs.s1)
+    }else{
+        mergers.s1 <- dadaFs.s1
+        track <- cbind(track, sapply(dadaFs.s1, getN))
+        colnames(track) <- c("input", "filtered", "denoisedF")
+        rm(derepFs.s1, dadaFs.s1)
+    }
 
     # Construct Sequence Table ------------------------------------------------
 
@@ -190,8 +207,7 @@ process DADA2 {
     write.csv(t(freq_chimeric), "freq_chimeric.csv", row.names=FALSE)
     saveRDS(seqtab.s1.nochim, "seqtab.s1.nochim.rds")
 
-    track <- cbind(track, rowSums(seqtab.s1.nochim))
-    colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
+    track <- cbind(track, "nonchim"=rowSums(seqtab.s1.nochim))
     rownames(track) <- sample.names.1
     write.csv(track, "processing_tracking.csv")
 

@@ -41,12 +41,14 @@
                 "metadata": {
                     "type": "string",
                     "default": "None",
-                    "description": "metadata"
+                    "description": "metadata",
+                    "fa_icon": "fas fa-file-csv"
                 },
                 "barcodes": {
                     "type": "string",
                     "default": "None",
-                    "description": "barcode file"
+                    "description": "barcode file",
+                    "fa_icon": "fas fa-border-all"
                 },
                 "multiqc_title": {
                     "type": "string",
@@ -57,7 +59,14 @@
                     "type": "string",
                     "default": "https://raw.githubusercontent.com/jianhong/16S_pipeline/assets/samplesheet.csv",
                     "hidden": true,
-                    "description": "The bcl2fastq samplesheet"
+                    "description": "The bcl2fastq samplesheet",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "single_end": {
+                    "type": "boolean",
+                    "hidden": false,
+                    "description": "Single end or Paired end.",
+                    "fa_icon": "far fa-clone"
                 }
             }
         },
@@ -71,13 +80,15 @@
                     "type": "string",
                     "default": "https://zenodo.org/record/4587955/files/silva_nr99_v138.1_train_set.fa.gz?download=1",
                     "description": "silva train set",
-                    "help_text": "The latest release can be found at: https://www.arb-silva.de/download/arb-files/"
+                    "help_text": "The latest release can be found at: https://www.arb-silva.de/download/arb-files/",
+                    "fa_icon": "fas fa-file-alt"
                 },
                 "silva_tax": {
                     "type": "string",
                     "default": "https://zenodo.org/record/4587955/files/silva_species_assignment_v138.1.fa.gz?download=1",
                     "description": "silva species assignment",
-                    "help_text": "The latest release can be found at: https://www.arb-silva.de/download/arb-files/"
+                    "help_text": "The latest release can be found at: https://www.arb-silva.de/download/arb-files/",
+                    "fa_icon": "fas fa-file-alt"
                 },
                 "genome": {
                     "type": "string",
@@ -113,15 +124,27 @@
             "description": "Control the steps of the pipeline",
             "default": "",
             "properties": {
-                "skip_bcl2fastq": {
-                    "type": "boolean"
-                },
-                "skip_fastqc": {
-                    "type": "boolean"
-                },
                 "bcl2fastq": {
                     "type": "string",
-                    "default": "bcl2fastq"
+                    "default": "bcl2fastq",
+                    "fa_icon": "fas fa-terminal",
+                    "description": "bcl2fastq command path"
+                },
+                "skip_bcl2fastq": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-sync",
+                    "description": "skip bcl2fastq or not"
+                },
+                "skip_fastqc": {
+                    "type": "boolean",
+                    "fa_icon": "far fa-flag",
+                    "description": "skip fastqc or not"
+                },
+                "skip_demultiplex": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-columns",
+                    "description": "skip demultiplex or not",
+                    "help_text": "The process will start from `filter` and be followed by `dada2 processing` . The input fastqs must follow the pattern of \"*_R{1,2}_{fastq,fq}.gz\""
                 }
             },
             "fa_icon": "fas fa-filter"
