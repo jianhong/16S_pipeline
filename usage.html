@@ -227,22 +227,22 @@ They are loaded in sequence, so later profiles can overwrite earlier profiles.</
 <h3 id="c" class=""><code>-c</code><a href="usage.html#c" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
 <p>Specify the path to a specific config file (this is a core Nextflow command). See the <a href="https://nf-co.re/usage/configuration">nf-core website documentation</a> for more information.</p>
 <h2 id="custom-configuration" class="">Custom configuration<a href="usage.html#custom-configuration" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2>
-<h3 id="resource-requests" class="">Resource requests<a href="usage.html#resource-requests" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
-<p>Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18">here</a> it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.</p>
-<p>For example, if the nf-core/rnaseq pipeline is failing after multiple re-submissions of the <code>STAR_ALIGN</code> process due to an exit code of <code>137</code> this would indicate that there is an out of memory issue:</p>
-<pre><code class="language-console hljs language-shell">[62/149eb0] NOTE: Process `RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)` terminated with an error exit status (137) -- Execution is retried (1)
-Error executing process &gt; 'RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)'
+
+<h3 id="resource-requests" class="">Resource requests<a href="#resource-requests" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3>
+<p>Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customize the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18">here</a> it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.</p>
+<p>For example, if the pipeline is failing after multiple re-submissions of the <code>BCL2FASTQ</code> process due to an exit code of <code>137</code> this would indicate that there is an out of memory issue:</p>
+<pre><code class="language-console">[9d/172ca5] NOTE: Process `NFCORE_MICROBIOME:MICROBIOME:BCL2FASTQ` terminated with an error exit status (137) -- Execution is retried (1)
+Error executing process &gt; 'NFCORE_MICROBIOME:MICROBIOME:BCL2FASTQ'
 
 Caused by:
-    Process `RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)` terminated with an error exit status (137)
+    Process `NFCORE_MICROBIOME:MICROBIOME:BCL2FASTQ` terminated with an error exit status (137)
 
 Command executed:
-    STAR \
-        --genomeDir star \
-        --readFilesIn WT_REP1_trimmed.fq.gz  \
-        --runThreadN 2 \
-        --outFileNamePrefix WT_REP1. \
-        &lt;TRUNCATED&gt;
+    bcl2fastq \
+            --runfolder-dir raw \
+            --output-dir fastq/ \
+            --sample-sheet samplesheet.csv \
+            --processing-threads 2
 
 Command exit status:
     137
@@ -251,20 +251,97 @@ Command output:
     (empty)
 
 Command error:
-    .command.sh: line 9:  30 Killed    STAR --genomeDir star --readFilesIn WT_REP1_trimmed.fq.gz --runThreadN 2 --outFileNamePrefix WT_REP1. &lt;TRUNCATED&gt;
+    .command.sh: line 9:  30 Killed    bcl2fastq --runfolder-dir raw --output-dir fastq/ &lt;TRUNCATED&gt;
 Work dir:
     /home/pipelinetest/work/9d/172ca5881234073e8d76f2a19c88fb
 
 Tip: you can replicate the issue by changing to the process work dir and entering the command `bash .command.run`</code></pre>
-<p>To bypass this error you would need to find exactly which resources are set by the <code>STAR_ALIGN</code> process. The quickest way is to search for <code>process STAR_ALIGN</code> in the <a href="https://github.com/nf-core/rnaseq/search?q=process+STAR_ALIGN">nf-core/rnaseq Github repo</a>. We have standardised the structure of Nextflow DSL2 pipelines such that all module files will be present in the <code>modules/</code> directory and so based on the search results the file we want is <code>modules/nf-core/software/star/align/main.nf</code>. If you click on the link to that file you will notice that there is a <code>label</code> directive at the top of the module that is set to <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/modules/nf-core/software/star/align/main.nf#L9"><code>label process_high</code></a>. The <a href="https://www.nextflow.io/docs/latest/process.html#label">Nextflow <code>label</code></a> directive allows us to organise workflow processes in separate groups which can be referenced in a configuration file to select and configure subset of processes having similar computing requirements. The default values for the <code>process_high</code> label are set in the pipeline's <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L33-L37"><code>base.config</code></a> which in this case is defined as 72GB. Providing you haven't set any other standard nf-core parameters to <strong>cap</strong> the <a href="https://nf-co.re/usage/configuration#max-resources">maximum resources</a> used by the pipeline then we can try and bypass the <code>STAR_ALIGN</code> process failure by creating a custom config file that sets at least 72GB of memory, in this case increased to 100GB. The custom config below can then be provided to the pipeline via the <a href="usage.html#-c"><code>-c</code></a> parameter as highlighted in previous sections.</p>
-<pre><code class="language-groovy hljs">process {
-    <span class="hljs-symbol">withName:</span> STAR_ALIGN {
-        memory = <span class="hljs-number">100.</span>GB
+<p>To bypass this error you would need to find exactly which resources are set by the <code>BCL2FASTQ</code> process. The quickest way is to search for <code>process BCL2FASTQ</code> in the <a href="https://github.com/jianhong/16S_pipeline/search?q=process+BCL2FASTQ">jianhong/16S_pipeline Github repo</a>. We have standardized the structure of Nextflow DSL2 pipelines such that all module files will be present in the <code>modules/</code> directory and so based on the search results the file we want is <code>modules/local/bcl2fastq.nf</code>. If you click on the link to that file you will notice that there is a <code>label</code> directive at the top of the module that is set to <code>label process_high</code>. The <a href="https://www.nextflow.io/docs/latest/process.html#label">Nextflow <code>label</code></a> directive allows us to organise workflow processes in separate groups which can be referenced in a configuration file to select and configure subset of processes having similar computing requirements. The default values for the <code>process_high</code> label are set in the pipeline's <a href="https://github.com/jianhong/16S_pipeline/blob/c7f5684d49151ac7974e7eabc7915f5e4a0fd3aa/conf/base.config#L39-L43"><code>base.config</code></a> which in this case is defined as 72GB. Providing you haven't set any other standard nf-core parameters to <strong>cap</strong> the <a href="https://nf-co.re/usage/configuration#max-resources">maximum resources</a> used by the pipeline then we can try and bypass the <code>BCL2FASTQ</code> process failure by creating a custom config file that sets at least 72GB of memory, in this case increased to 100GB. The custom config below can then be provided to the pipeline via the <a href="#-c"><code>-c</code></a> parameter as highlighted in previous sections.</p>
+<pre><code class="language-groovy">process {
+    withName: BCL2FASTQ {
+        memory = 100.GB
     }
 }</code></pre>
 <blockquote>
-<p><strong>NB:</strong> We specify just the process name i.e. <code>STAR_ALIGN</code> in the config file and not the full task name string that is printed to screen in the error message or on the terminal whilst the pipeline is running i.e. <code>RNASEQ:ALIGN_STAR:STAR_ALIGN</code>. You may get a warning suggesting that the process selector isn't recognised but you can ignore that if the process name has been specified correctly. This is something that needs to be fixed upstream in core Nextflow.</p>
+<p><strong>NB:</strong> We specify just the process name i.e. <code>BCL2FASTQ</code> in the config file and not the full task name string that is printed to screen in the error message or on the terminal whilst the pipeline is running i.e. <code>NFCORE_MICROBIOME:MICROBIOME:BCL2FASTQ</code>. You may get a warning suggesting that the process selector isn't recognised but you can ignore that if the process name has been specified correctly. This is something that needs to be fixed upstream in core Nextflow.</p>
 </blockquote>
+<h3 id="module-specific-parameters" class="">Module specific parameters<a href="#module-specific-parameters" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3>
+<p>Module specific parameters can be passed by config file in following format by setting the <code>ext.args</code>.</p>
+<pre><code class="language-groovy">process {
+    withName: FILTERING {
+        ext.args   = '--trimming_reads --trim_left 10 --trim_right 0 --trunc_length_left 150 trunc_length_right 150'
+        ext.prefix = 's1'
+        publishDir = [
+            path: { "${params.outdir}/4_filter" },
+            mode: 'copy',
+            saveAs: { filename -&gt; filename.equals('versions.yml') ? null : filename }
+        ]
+    }
+}</code></pre>
+<p>For <code>FILTERING</code>, the options are</p>
+<pre><code class="language-{R}"><span class="text-nowrap">--trimming_reads,</span> -t        "logical",  Trim reads or not.
+--trim_left, -a,            "integer",  Default 0. The number of nucleotides to remove
+                                        from the start of the R1 read. If both
+                                        trunc_length_left and trim_left are provided,
+                                        filtered reads will have length
+                                        trunc_length_left-trim_left.
+--trim_right, -b,           "integer",  Default 0. The number of nucleotides to remove
+                                        from the start of the R2 reads. If both
+                                        trunc_length_right and trim_right are provided,
+                                        filtered reads will have length
+                                        trunc_length_right-trim_right.
+--trunc_length_left, -m,    "integer",  Default 0 (no truncation). Truncate R1 reads
+                                        after trunc_length_left bases. Reads shorter
+                                        than this are discarded.
+--trunc_length_right, -n,   "integer",  Default 0 (no truncation). Truncate R2 reads
+                                        after trunc_length_right bases. Reads shorter
+                                        than this are discarded.</code></pre>
+<p>For <code>DADA2</code>, the options are</p>
+<pre><code class="language-{R}"><span class="text-nowrap">--seq1,</span> -a,           "integer",  The number of minimal sequence length should be kept.
+--seq2, -b,           "integer",  The number of maximum sequence length should be kept.</code></pre>
+<h3 id="updating-containers" class="">Updating containers<a href="#updating-containers" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3>
+<p>The <a href="https://www.nextflow.io/docs/latest/dsl2.html">Nextflow DSL2</a> implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. If for some reason you need to use a different version of a particular tool with the pipeline then you just need to identify the <code>process</code> name and override the Nextflow <code>container</code> definition for that process using the <code>withName</code> declaration. For example, in the <a href="https://nf-co.re/viralrecon">nf-core/viralrecon</a> pipeline a tool called <a href="https://github.com/cov-lineages/pangolin">Pangolin</a> has been used during the COVID-19 pandemic to assign lineages to SARS-CoV-2 genome sequenced samples. Given that the lineage assignments change quite frequently it doesn't make sense to re-release the nf-core/viralrecon everytime a new version of Pangolin has been released. However, you can override the default container used by the pipeline by creating a custom config file and passing it as a command-line argument via <code>-c custom.config</code>.</p>
+<ol>
+<li>
+<p>Check the default version used by the pipeline in the module file for <a href="https://github.com/nf-core/viralrecon/blob/a85d5969f9025409e3618d6c280ef15ce417df65/modules/nf-core/software/pangolin/main.nf#L14-L19">Pangolin</a></p>
+</li>
+<li>
+<p>Find the latest version of the Biocontainer available on <a href="https://quay.io/repository/biocontainers/pangolin?tag=latest&amp;tab=tags">Quay.io</a></p>
+</li>
+<li>
+<p>Create the custom config accordingly:</p>
+<ul>
+<li>
+<p>For Docker:</p>
+<pre><code class="language-groovy">  process {
+      withName: PANGOLIN {
+          container = 'quay.io/biocontainers/pangolin:3.0.5--pyhdfd78af_0'
+      }
+  }</code></pre>
+</li>
+<li>
+<p>For Singularity:</p>
+<pre><code class="language-groovy">  process {
+      withName: PANGOLIN {
+          container = 'https://depot.galaxyproject.org/singularity/pangolin:3.0.5--pyhdfd78af_0'
+      }
+  }</code></pre>
+</li>
+<li>
+<p>For Conda:</p>
+<pre><code class="language-groovy">  process {
+      withName: PANGOLIN {
+          conda = 'bioconda::pangolin=3.0.5'
+      }
+  }</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>NB:</strong> If you wish to periodically update individual tool-specific results (e.g. Pangolin) generated by the pipeline then you must ensure to keep the <code>work/</code> directory otherwise the <code>-resume</code> ability of the pipeline will be compromised and it will restart from scratch.</p>
+</blockquote>
+
 <h3 id="updating-containers" class="">Updating containers<a href="usage.html#updating-containers" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3>
 <p>The <a href="https://www.nextflow.io/docs/latest/dsl2.html">Nextflow DSL2</a> implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. If for some reason you need to use a different version of a particular tool with the pipeline then you just need to identify the <code>process</code> name and override the Nextflow <code>container</code> definition for that process using the <code>withName</code> declaration. For example, in the <a href="https://nf-co.re/viralrecon">nf-core/viralrecon</a> pipeline a tool called <a href="https://github.com/cov-lineages/pangolin">Pangolin</a> has been used during the COVID-19 pandemic to assign lineages to SARS-CoV-2 genome sequenced samples. Given that the lineage assignments change quite frequently it doesn't make sense to re-release the nf-core/viralrecon everytime a new version of Pangolin has been released. However, you can override the default container used by the pipeline by creating a custom config file and passing it as a command-line argument via <code>-c custom.config</code>.</p>
 <ol>

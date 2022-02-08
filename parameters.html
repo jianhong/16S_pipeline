@@ -113,291 +113,311 @@
   </ul>
 
   <div class="row flex-wrap-reverse flex-lg-wrap ms-lg-5"><div class="col-12 col-lg-9"><div class="rendered-markdown pipeline-page-content"><div class="param-docs">
-    <h1 id="parameters" class="">
-      Parameters
-      <a href="parameters.html#parameters" class="header-link"><span class="fas fa-link" aria-hidden="true"></span></a>
-    </h1>
-    <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group">
-      <div class="col-12 param-docs-row-id-col"><h2 id="inputoutput-options" class=""><i class="fas fa-terminal fa-fw" aria-hidden="true"></i> Input/output options<a href="parameters.html#inputoutput-options" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2></div>
-      <div class="col me-auto"><div id="input_output_options-body" class="param-docs-body lead mb-3"><p>Define where the pipeline should find input data and save output data.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="input" class=""><i class="fas fa-file-csv fa-fw" aria-hidden="true"></i> <code>--input</code><a href="parameters.html#input" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--input-body" class="param-docs-body small"><p>Path to comma-separated file containing information about the samples in the experiment.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--input-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--input-help">
-          <p>You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See <a href="https://nf-co.re/microbiome/usage#samplesheet-input">usage docs</a>.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="outdir" class=""><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i> <code>--outdir</code><a href="parameters.html#outdir" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--outdir-body" class="param-docs-body small"><p>Path to the output directory where the results will be saved.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'./results'</code></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="email" class=""><i class="fas fa-envelope fa-fw" aria-hidden="true"></i> <code>--email</code><a href="parameters.html#email" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--email-body" class="param-docs-body small"><p>Email address for completion summary.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--email-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--email-help">
-          <p>Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (<code>~/.nextflow/config</code>) then you don't need to specify this on the command line for every run.</p><code class="text-small"><span class="text-muted">pattern: </span>^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$</code></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="metadata" class=""><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--metadata</code><a href="parameters.html#metadata" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--metadata-body" class="param-docs-body small"><p>metadata</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'None'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="barcodes" class=""><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--barcodes</code><a href="parameters.html#barcodes" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--barcodes-body" class="param-docs-body small"><p>barcode file</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'None'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="multiqc_title" class=""><i class="fas fa-file-signature fa-fw" aria-hidden="true"></i> <code>--multiqc_title</code><a href="parameters.html#multiqc_title" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--multiqc_title-body" class="param-docs-body small"><p>MultiQC report title. Printed as page header, used for filename if not otherwise specified.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="samplesheet" class="toc-hidden"><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--samplesheet</code><a href="parameters.html#samplesheet" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--samplesheet-body" class="param-docs-body small"><p>The bcl2fastq samplesheet</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://raw.githubusercontent.com/jianhong/16S_pipeline/assets/samplesheet.csv'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-warning text-dark small ms-2">required</span> <span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group">
-      <div class="col-12 param-docs-row-id-col"><h2 id="reference-options" class=""><i class="fas fa-dna fa-fw" aria-hidden="true"></i> Reference options<a href="parameters.html#reference-options" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2></div>
-      <div class="col me-auto"><div id="reference_options-body" class="param-docs-body lead mb-3"><p>Reference related files and options required for the workflow.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="silva_nr99" class=""><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--silva_nr99</code><a href="parameters.html#silva_nr99" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--silva_nr99-body" class="param-docs-body small"><p>silva train set</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://zenodo.org/record/4587955/files/silva_nr99_v138.1_train_set.fa.gz?download=1'</code><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--silva_nr99-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--silva_nr99-help">
-          <p>The latest release can be found at: <a href="https://www.arb-silva.de/download/arb-files/">https://www.arb-silva.de/download/arb-files/</a></p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="silva_tax" class=""><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--silva_tax</code><a href="parameters.html#silva_tax" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--silva_tax-body" class="param-docs-body small"><p>silva species assignment</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://zenodo.org/record/4587955/files/silva_species_assignment_v138.1.fa.gz?download=1'</code><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--silva_tax-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--silva_tax-help">
-          <p>The latest release can be found at: <a href="https://www.arb-silva.de/download/arb-files/">https://www.arb-silva.de/download/arb-files/</a></p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="genome" class="toc-hidden"><i class="fas fa-book fa-fw" aria-hidden="true"></i> <code>--genome</code><a href="parameters.html#genome" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--genome-body" class="param-docs-body small"><p>Name of iGenomes reference.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--genome-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--genome-help">
-          <p>If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. <code><span class="text-nowrap">--genome</span> GRCh38</code>. </p>
-<p>See the <a href="https://nf-co.re/usage/reference_genomes">nf-core website docs</a> for more details.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="igenomes_base" class="toc-hidden"><i class="fas fa-cloud-download-alt fa-fw" aria-hidden="true"></i> <code>--igenomes_base</code><a href="parameters.html#igenomes_base" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--igenomes_base-body" class="param-docs-body small"><p>Directory / URL base for iGenomes references.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'s3://ngi-igenomes/igenomes'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="igenomes_ignore" class="toc-hidden"><i class="fas fa-ban fa-fw" aria-hidden="true"></i> <code>--igenomes_ignore</code><a href="parameters.html#igenomes_ignore" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--igenomes_ignore-body" class="param-docs-body small"><p>Do not load the iGenomes reference config.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--igenomes_ignore-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--igenomes_ignore-help">
-          <p>Do not load <code>igenomes.config</code> when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in <code>igenomes.config</code>.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group">
-      <div class="col-12 param-docs-row-id-col"><h2 id="pipeline-control-options" class=""><i class="fas fa-filter fa-fw" aria-hidden="true"></i> Pipeline control options<a href="parameters.html#pipeline-control-options" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2></div>
-      <div class="col me-auto"><div id="pipeline_control_options-body" class="param-docs-body lead mb-3"><p>Control the steps of the pipeline</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="skip_bcl2fastq" class=""><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--skip_bcl2fastq</code><a href="parameters.html#skip_bcl2fastq" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--skip_bcl2fastq-body" class="param-docs-body small"></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="skip_fastqc" class=""><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--skip_fastqc</code><a href="parameters.html#skip_fastqc" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--skip_fastqc-body" class="param-docs-body small"></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="bcl2fastq" class=""><i class="fad fa-circle fa-fw text-muted" aria-hidden="true"></i> <code>--bcl2fastq</code><a href="parameters.html#bcl2fastq" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--bcl2fastq-body" class="param-docs-body small"></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'bcl2fastq'</code></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group param-docs-hidden collapse d-print-block">
-      <div class="col-12 param-docs-row-id-col"><h2 id="institutional-config-options" class="toc-hidden"><i class="fas fa-university fa-fw" aria-hidden="true"></i> Institutional config options<a href="parameters.html#institutional-config-options" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2></div>
-      <div class="col me-auto"><div id="institutional_config_options-body" class="param-docs-body lead mb-3"><p>Parameters used to describe centralised config profiles. These should not be edited.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#institutional_config_options-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="institutional_config_options-help">
-          <p>The centralised nf-core configuration profiles use a handful of pipeline parameters to describe themselves. This information is then printed to the Nextflow log when you run a pipeline. You should not need to change these values when you run a pipeline.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="custom_config_version" class="toc-hidden"><i class="fas fa-users-cog fa-fw" aria-hidden="true"></i> <code>--custom_config_version</code><a href="parameters.html#custom_config_version" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--custom_config_version-body" class="param-docs-body small"><p>Git commit id for Institutional configs.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'master'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="custom_config_base" class="toc-hidden"><i class="fas fa-users-cog fa-fw" aria-hidden="true"></i> <code>--custom_config_base</code><a href="parameters.html#custom_config_base" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--custom_config_base-body" class="param-docs-body small"><p>Base directory for Institutional configs.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://raw.githubusercontent.com/nf-core/configs/master'</code><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--custom_config_base-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--custom_config_base-help">
-          <p>If you're running offline, Nextflow will not be able to fetch the institutional config files from the internet. If you don't need them, then this is not a problem. If you do need them, you should download the files from the repo and tell Nextflow where to find them with this parameter.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_name" class="toc-hidden"><i class="fas fa-users-cog fa-fw" aria-hidden="true"></i> <code>--config_profile_name</code><a href="parameters.html#config_profile_name" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--config_profile_name-body" class="param-docs-body small"><p>Institutional config name.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_description" class="toc-hidden"><i class="fas fa-users-cog fa-fw" aria-hidden="true"></i> <code>--config_profile_description</code><a href="parameters.html#config_profile_description" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--config_profile_description-body" class="param-docs-body small"><p>Institutional config description.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_contact" class="toc-hidden"><i class="fas fa-users-cog fa-fw" aria-hidden="true"></i> <code>--config_profile_contact</code><a href="parameters.html#config_profile_contact" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--config_profile_contact-body" class="param-docs-body small"><p>Institutional config contact information.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_url" class="toc-hidden"><i class="fas fa-users-cog fa-fw" aria-hidden="true"></i> <code>--config_profile_url</code><a href="parameters.html#config_profile_url" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--config_profile_url-body" class="param-docs-body small"><p>Institutional config URL link.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group param-docs-hidden collapse d-print-block">
-      <div class="col-12 param-docs-row-id-col"><h2 id="max-job-request-options" class="toc-hidden"><i class="fab fa-acquisitions-incorporated fa-fw" aria-hidden="true"></i> Max job request options<a href="parameters.html#max-job-request-options" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2></div>
-      <div class="col me-auto"><div id="max_job_request_options-body" class="param-docs-body lead mb-3"><p>Set the top limit for requested resources for any single job.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#max_job_request_options-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="max_job_request_options-help">
-          <p>If you are running on a smaller system, a pipeline step requesting more resources than are available may cause the Nextflow to stop the run with an error. These options allow you to cap the maximum resources requested by any single job so that the pipeline will run on your system.</p>
-<p>Note that you can not <em>increase</em> the resources requested by any job using these options. For that you will need your own configuration file. See <a href="https://nf-co.re/usage/configuration">the nf-core website</a> for details.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_cpus" class="toc-hidden"><i class="fas fa-microchip fa-fw" aria-hidden="true"></i> <code>--max_cpus</code><a href="parameters.html#max_cpus" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--max_cpus-body" class="param-docs-body small"><p>Maximum number of CPUs that can be requested for any single job.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>16</code><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--max_cpus-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--max_cpus-help">
-          <p>Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. <code><span class="text-nowrap">--max_cpus</span> 1</code></p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_memory" class="toc-hidden"><i class="fas fa-memory fa-fw" aria-hidden="true"></i> <code>--max_memory</code><a href="parameters.html#max_memory" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--max_memory-body" class="param-docs-body small"><p>Maximum amount of memory that can be requested for any single job.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'128.GB'</code><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--max_memory-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--max_memory-help">
-          <p>Use to set an upper-limit for the memory requirement for each process. Should be a string in the format integer-unit e.g. <code><span class="text-nowrap">--max_memory</span> '8.GB'</code></p><code class="text-small"><span class="text-muted">pattern: </span>^\d+(\.\d+)?\.?\s*(K|M|G|T)?B$</code></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_time" class="toc-hidden"><i class="far fa-clock fa-fw" aria-hidden="true"></i> <code>--max_time</code><a href="parameters.html#max_time" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--max_time-body" class="param-docs-body small"><p>Maximum amount of time that can be requested for any single job.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'240.h'</code><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--max_time-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--max_time-help">
-          <p>Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. <code><span class="text-nowrap">--max_time</span> '2.h'</code></p><code class="text-small"><span class="text-muted">pattern: </span>^(\d+\.?\s*(s|m|h|day)\s*)+$</code></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group param-docs-hidden collapse d-print-block">
-      <div class="col-12 param-docs-row-id-col"><h2 id="generic-options" class="toc-hidden"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i> Generic options<a href="parameters.html#generic-options" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h2></div>
-      <div class="col me-auto"><div id="generic_options-body" class="param-docs-body lead mb-3"><p>Less common options for the pipeline, typically set in a config file.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#generic_options-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="generic_options-help">
-          <p>These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.</p>
-<p>Typically these options would be set in a Nextflow config file loaded for all pipeline runs, such as <code>~/.nextflow/config</code>.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="help" class="toc-hidden"><i class="fas fa-question-circle fa-fw" aria-hidden="true"></i> <code>--help</code><a href="parameters.html#help" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--help-body" class="param-docs-body small"><p>Display help text.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="email_on_fail" class="toc-hidden"><i class="fas fa-exclamation-triangle fa-fw" aria-hidden="true"></i> <code>--email_on_fail</code><a href="parameters.html#email_on_fail" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--email_on_fail-body" class="param-docs-body small"><p>Email address for completion summary, only when pipeline fails.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--email_on_fail-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--email_on_fail-help">
-          <p>An email address to send a summary email to when the pipeline is completed - ONLY sent if the pipeline does not exit successfully.</p><code class="text-small"><span class="text-muted">pattern: </span>^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$</code></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="plaintext_email" class="toc-hidden"><i class="fas fa-remove-format fa-fw" aria-hidden="true"></i> <code>--plaintext_email</code><a href="parameters.html#plaintext_email" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--plaintext_email-body" class="param-docs-body small"><p>Send plain-text email instead of HTML.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_multiqc_email_size" class="toc-hidden"><i class="fas fa-file-upload fa-fw" aria-hidden="true"></i> <code>--max_multiqc_email_size</code><a href="parameters.html#max_multiqc_email_size" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--max_multiqc_email_size-body" class="param-docs-body small"><p>File size limit when attaching MultiQC reports to summary emails.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'25.MB'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="monochrome_logs" class="toc-hidden"><i class="fas fa-palette fa-fw" aria-hidden="true"></i> <code>--monochrome_logs</code><a href="parameters.html#monochrome_logs" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--monochrome_logs-body" class="param-docs-body small"><p>Do not use coloured log outputs.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="multiqc_config" class="toc-hidden"><i class="fas fa-cog fa-fw" aria-hidden="true"></i> <code>--multiqc_config</code><a href="parameters.html#multiqc_config" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--multiqc_config-body" class="param-docs-body small"><p>Custom config file to supply to MultiQC.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="tracedir" class="toc-hidden"><i class="fas fa-cogs fa-fw" aria-hidden="true"></i> <code>--tracedir</code><a href="parameters.html#tracedir" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--tracedir-body" class="param-docs-body small"><p>Directory to keep pipeline Nextflow logs and reports.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'${params.outdir}/pipeline_info'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="validate_params" class="toc-hidden"><i class="fas fa-check-square fa-fw" aria-hidden="true"></i> <code>--validate_params</code><a href="parameters.html#validate_params" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--validate_params-body" class="param-docs-body small"><p>Boolean whether to validate parameters against the schema at runtime</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>1</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="show_hidden_params" class="toc-hidden"><i class="far fa-eye-slash fa-fw" aria-hidden="true"></i> <code>--show_hidden_params</code><a href="parameters.html#show_hidden_params" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--show_hidden_params-body" class="param-docs-body small"><p>Show all params when using <code><span class="text-nowrap">--help</span></code></p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--show_hidden_params-help" aria-expanded="false">
-          <i class="fas fa-question-circle" aria-hidden="true"></i> Help
-        </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--show_hidden_params-help">
-          <p>By default, parameters set as <em>hidden</em> in the schema are not shown on the command line when a user runs with <code><span class="text-nowrap">--help</span></code>. Specifying this option will tell the pipeline to show all parameters.</p></div>
-    </div>
-    <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
-      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="enable_conda" class="toc-hidden"><i class="fas fa-bacon fa-fw" aria-hidden="true"></i> <code>--enable_conda</code><a href="parameters.html#enable_conda" class="header-link scroll_to_link"><span class="fas fa-link" aria-hidden="true"></span></a></h3></div>
-      <div class="col me-auto"><div id="--enable_conda-body" class="param-docs-body small"><p>Run this workflow with Conda. You can also use '-profile conda' instead of providing this parameter.</p></div></div>
-      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
-    </div>
-    <div class="alert border bg-light small hidden_params_alert collapse show">
-      <p>The following uncommon parameters have been hidden: <code>--samplesheet</code>, <code>--genome</code>, <code>--igenomes_base</code>, <code>--igenomes_ignore</code>, <code>--custom_config_version</code>, <code>--custom_config_base</code>, <code>--config_profile_name</code>, <code>--config_profile_description</code>, <code>--config_profile_contact</code>, <code>--config_profile_url</code>, <code>--max_cpus</code>, <code>--max_memory</code>, <code>--max_time</code>, <code>--help</code>, <code>--email_on_fail</code>, <code>--plaintext_email</code>, <code>--max_multiqc_email_size</code>, <code>--monochrome_logs</code>, <code>--multiqc_config</code>, <code>--tracedir</code>, <code>--validate_params</code>, <code>--show_hidden_params</code>, <code>--enable_conda</code></p>
-    </div></div></div></div><div class="col-12 col-lg-3 ps-2"><div class="side-sub-subnav sticky-top"><nav class="toc pt-2 auto-toc border-start d-print-none"><strong class="ms-3 d-inline-block w-100 text-secondary border-bottom">On this page</strong>
+     <h1 id="parameters" class="">
+       Parameters
+       <a href="#parameters" class="header-link"><span class="fas fa-link"></span></a>
+     </h1>
+     <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group">
+       <div class="col-12 param-docs-row-id-col"><h2 id="inputoutput-options" class=""><i class="fas fa-terminal fa-fw"></i> Input/output options<a href="#inputoutput-options" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h2></div>
+       <div class="col me-auto"><div id="input_output_options-body" class="param-docs-body lead mb-3"><p>Define where the pipeline should find input data and save output data.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="input" class=""><i class="fas fa-file-csv fa-fw"></i> <code>--input</code><a href="#input" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--input-body" class="param-docs-body small"><p>Path to comma-separated file containing information about the samples in the experiment.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--input-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--input-help">
+           <p>You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See <a href="https://nf-co.re/microbiome/usage#samplesheet-input">usage docs</a>.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="outdir" class=""><i class="fas fa-folder-open fa-fw"></i> <code>--outdir</code><a href="#outdir" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--outdir-body" class="param-docs-body small"><p>Path to the output directory where the results will be saved.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'./results'</code></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="email" class=""><i class="fas fa-envelope fa-fw"></i> <code>--email</code><a href="#email" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--email-body" class="param-docs-body small"><p>Email address for completion summary.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--email-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--email-help">
+           <p>Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (<code>~/.nextflow/config</code>) then you don't need to specify this on the command line for every run.</p><code class="text-small"><span class="text-muted">pattern: </span>^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$</code></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="metadata" class=""><i class="fas fa-file-csv fa-fw"></i> <code>--metadata</code><a href="#metadata" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--metadata-body" class="param-docs-body small"><p>metadata</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'None'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="barcodes" class=""><i class="fas fa-border-all fa-fw"></i> <code>--barcodes</code><a href="#barcodes" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--barcodes-body" class="param-docs-body small"><p>barcode file</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'None'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="multiqc_title" class=""><i class="fas fa-file-signature fa-fw"></i> <code>--multiqc_title</code><a href="#multiqc_title" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--multiqc_title-body" class="param-docs-body small"><p>MultiQC report title. Printed as page header, used for filename if not otherwise specified.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="samplesheet" class="toc-hidden"><i class="fas fa-file-csv fa-fw"></i> <code>--samplesheet</code><a href="#samplesheet" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--samplesheet-body" class="param-docs-body small"><p>The bcl2fastq samplesheet</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://raw.githubusercontent.com/jianhong/16S_pipeline/assets/samplesheet.csv'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-warning text-dark small ms-2">required</span> <span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="single_end" class=""><i class="far fa-clone fa-fw"></i> <code>--single_end</code><a href="#single_end" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--single_end-body" class="param-docs-body small"><p>Single end or Paired end.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group">
+       <div class="col-12 param-docs-row-id-col"><h2 id="reference-options" class=""><i class="fas fa-dna fa-fw"></i> Reference options<a href="#reference-options" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h2></div>
+       <div class="col me-auto"><div id="reference_options-body" class="param-docs-body lead mb-3"><p>Reference related files and options required for the workflow.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="silva_nr99" class=""><i class="fas fa-file-alt fa-fw"></i> <code>--silva_nr99</code><a href="#silva_nr99" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--silva_nr99-body" class="param-docs-body small"><p>silva train set</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://zenodo.org/record/4587955/files/silva_nr99_v138.1_train_set.fa.gz?download=1'</code><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--silva_nr99-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--silva_nr99-help">
+           <p>The latest release can be found at: <a href="https://www.arb-silva.de/download/arb-files/">https://www.arb-silva.de/download/arb-files/</a></p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="silva_tax" class=""><i class="fas fa-file-alt fa-fw"></i> <code>--silva_tax</code><a href="#silva_tax" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--silva_tax-body" class="param-docs-body small"><p>silva species assignment</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://zenodo.org/record/4587955/files/silva_species_assignment_v138.1.fa.gz?download=1'</code><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--silva_tax-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-warning text-dark small ms-2">required</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--silva_tax-help">
+           <p>The latest release can be found at: <a href="https://www.arb-silva.de/download/arb-files/">https://www.arb-silva.de/download/arb-files/</a></p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="genome" class="toc-hidden"><i class="fas fa-book fa-fw"></i> <code>--genome</code><a href="#genome" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--genome-body" class="param-docs-body small"><p>Name of iGenomes reference.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--genome-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--genome-help">
+           <p>If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. <code><span class="text-nowrap">--genome</span> GRCh38</code>. </p>
+ <p>See the <a href="https://nf-co.re/usage/reference_genomes">nf-core website docs</a> for more details.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="igenomes_base" class="toc-hidden"><i class="fas fa-cloud-download-alt fa-fw"></i> <code>--igenomes_base</code><a href="#igenomes_base" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--igenomes_base-body" class="param-docs-body small"><p>Directory / URL base for iGenomes references.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'s3://ngi-igenomes/igenomes'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="igenomes_ignore" class="toc-hidden"><i class="fas fa-ban fa-fw"></i> <code>--igenomes_ignore</code><a href="#igenomes_ignore" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--igenomes_ignore-body" class="param-docs-body small"><p>Do not load the iGenomes reference config.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--igenomes_ignore-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--igenomes_ignore-help">
+           <p>Do not load <code>igenomes.config</code> when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in <code>igenomes.config</code>.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group">
+       <div class="col-12 param-docs-row-id-col"><h2 id="pipeline-control-options" class=""><i class="fas fa-filter fa-fw"></i> Pipeline control options<a href="#pipeline-control-options" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h2></div>
+       <div class="col me-auto"><div id="pipeline_control_options-body" class="param-docs-body lead mb-3"><p>Control the steps of the pipeline</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="bcl2fastq" class=""><i class="fas fa-terminal fa-fw"></i> <code>--bcl2fastq</code><a href="#bcl2fastq" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--bcl2fastq-body" class="param-docs-body small"><p>bcl2fastq command path</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'bcl2fastq'</code></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="skip_bcl2fastq" class=""><i class="fas fa-sync fa-fw"></i> <code>--skip_bcl2fastq</code><a href="#skip_bcl2fastq" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--skip_bcl2fastq-body" class="param-docs-body small"><p>skip bcl2fastq or not</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="skip_fastqc" class=""><i class="far fa-flag fa-fw"></i> <code>--skip_fastqc</code><a href="#skip_fastqc" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--skip_fastqc-body" class="param-docs-body small"><p>skip fastqc or not</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="skip_demultiplex" class=""><i class="fas fa-columns fa-fw"></i> <code>--skip_demultiplex</code><a href="#skip_demultiplex" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--skip_demultiplex-body" class="param-docs-body small"><p>skip demultiplex or not</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--skip_demultiplex-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--skip_demultiplex-help">
+           <p>The process will start from <code>filter</code> and be followed by <code>dada2 processing</code> . The input fastqs must follow the pattern of "*<em>R{1,2}</em>{fastq,fq}.gz"</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group param-docs-hidden collapse d-print-block">
+       <div class="col-12 param-docs-row-id-col"><h2 id="institutional-config-options" class="toc-hidden"><i class="fas fa-university fa-fw"></i> Institutional config options<a href="#institutional-config-options" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h2></div>
+       <div class="col me-auto"><div id="institutional_config_options-body" class="param-docs-body lead mb-3"><p>Parameters used to describe centralised config profiles. These should not be edited.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#institutional_config_options-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="institutional_config_options-help">
+           <p>The centralised nf-core configuration profiles use a handful of pipeline parameters to describe themselves. This information is then printed to the Nextflow log when you run a pipeline. You should not need to change these values when you run a pipeline.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="custom_config_version" class="toc-hidden"><i class="fas fa-users-cog fa-fw"></i> <code>--custom_config_version</code><a href="#custom_config_version" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--custom_config_version-body" class="param-docs-body small"><p>Git commit id for Institutional configs.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'master'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="custom_config_base" class="toc-hidden"><i class="fas fa-users-cog fa-fw"></i> <code>--custom_config_base</code><a href="#custom_config_base" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--custom_config_base-body" class="param-docs-body small"><p>Base directory for Institutional configs.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'https://raw.githubusercontent.com/nf-core/configs/master'</code><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--custom_config_base-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--custom_config_base-help">
+           <p>If you're running offline, Nextflow will not be able to fetch the institutional config files from the internet. If you don't need them, then this is not a problem. If you do need them, you should download the files from the repo and tell Nextflow where to find them with this parameter.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_name" class="toc-hidden"><i class="fas fa-users-cog fa-fw"></i> <code>--config_profile_name</code><a href="#config_profile_name" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--config_profile_name-body" class="param-docs-body small"><p>Institutional config name.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_description" class="toc-hidden"><i class="fas fa-users-cog fa-fw"></i> <code>--config_profile_description</code><a href="#config_profile_description" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--config_profile_description-body" class="param-docs-body small"><p>Institutional config description.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_contact" class="toc-hidden"><i class="fas fa-users-cog fa-fw"></i> <code>--config_profile_contact</code><a href="#config_profile_contact" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--config_profile_contact-body" class="param-docs-body small"><p>Institutional config contact information.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="config_profile_url" class="toc-hidden"><i class="fas fa-users-cog fa-fw"></i> <code>--config_profile_url</code><a href="#config_profile_url" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--config_profile_url-body" class="param-docs-body small"><p>Institutional config URL link.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group param-docs-hidden collapse d-print-block">
+       <div class="col-12 param-docs-row-id-col"><h2 id="max-job-request-options" class="toc-hidden"><i class="fab fa-acquisitions-incorporated fa-fw"></i> Max job request options<a href="#max-job-request-options" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h2></div>
+       <div class="col me-auto"><div id="max_job_request_options-body" class="param-docs-body lead mb-3"><p>Set the top limit for requested resources for any single job.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#max_job_request_options-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="max_job_request_options-help">
+           <p>If you are running on a smaller system, a pipeline step requesting more resources than are available may cause the Nextflow to stop the run with an error. These options allow you to cap the maximum resources requested by any single job so that the pipeline will run on your system.</p>
+ <p>Note that you can not <em>increase</em> the resources requested by any job using these options. For that you will need your own configuration file. See <a href="https://nf-co.re/usage/configuration">the nf-core website</a> for details.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_cpus" class="toc-hidden"><i class="fas fa-microchip fa-fw"></i> <code>--max_cpus</code><a href="#max_cpus" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--max_cpus-body" class="param-docs-body small"><p>Maximum number of CPUs that can be requested for any single job.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>16</code><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--max_cpus-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--max_cpus-help">
+           <p>Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. <code><span class="text-nowrap">--max_cpus</span> 1</code></p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_memory" class="toc-hidden"><i class="fas fa-memory fa-fw"></i> <code>--max_memory</code><a href="#max_memory" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--max_memory-body" class="param-docs-body small"><p>Maximum amount of memory that can be requested for any single job.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'128.GB'</code><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--max_memory-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--max_memory-help">
+           <p>Use to set an upper-limit for the memory requirement for each process. Should be a string in the format integer-unit e.g. <code><span class="text-nowrap">--max_memory</span> '8.GB'</code></p><code class="text-small"><span class="text-muted">pattern: </span>^\d+(\.\d+)?\.?\s*(K|M|G|T)?B$</code></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_time" class="toc-hidden"><i class="far fa-clock fa-fw"></i> <code>--max_time</code><a href="#max_time" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--max_time-body" class="param-docs-body small"><p>Maximum amount of time that can be requested for any single job.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'240.h'</code><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--max_time-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--max_time-help">
+           <p>Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. <code><span class="text-nowrap">--max_time</span> '2.h'</code></p><code class="text-small"><span class="text-muted">pattern: </span>^(\d+\.?\s*(s|m|h|day)\s*)+$</code></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group param-docs-hidden collapse d-print-block">
+       <div class="col-12 param-docs-row-id-col"><h2 id="generic-options" class="toc-hidden"><i class="fas fa-file-import fa-fw"></i> Generic options<a href="#generic-options" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h2></div>
+       <div class="col me-auto"><div id="generic_options-body" class="param-docs-body lead mb-3"><p>Less common options for the pipeline, typically set in a config file.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#generic_options-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="generic_options-help">
+           <p>These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.</p>
+ <p>Typically these options would be set in a Nextflow config file loaded for all pipeline runs, such as <code>~/.nextflow/config</code>.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="help" class="toc-hidden"><i class="fas fa-question-circle fa-fw"></i> <code>--help</code><a href="#help" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--help-body" class="param-docs-body small"><p>Display help text.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="email_on_fail" class="toc-hidden"><i class="fas fa-exclamation-triangle fa-fw"></i> <code>--email_on_fail</code><a href="#email_on_fail" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--email_on_fail-body" class="param-docs-body small"><p>Email address for completion summary, only when pipeline fails.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--email_on_fail-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--email_on_fail-help">
+           <p>An email address to send a summary email to when the pipeline is completed - ONLY sent if the pipeline does not exit successfully.</p><code class="text-small"><span class="text-muted">pattern: </span>^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$</code></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="plaintext_email" class="toc-hidden"><i class="fas fa-remove-format fa-fw"></i> <code>--plaintext_email</code><a href="#plaintext_email" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--plaintext_email-body" class="param-docs-body small"><p>Send plain-text email instead of HTML.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="max_multiqc_email_size" class="toc-hidden"><i class="fas fa-file-upload fa-fw"></i> <code>--max_multiqc_email_size</code><a href="#max_multiqc_email_size" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--max_multiqc_email_size-body" class="param-docs-body small"><p>File size limit when attaching MultiQC reports to summary emails.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'25.MB'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="monochrome_logs" class="toc-hidden"><i class="fas fa-palette fa-fw"></i> <code>--monochrome_logs</code><a href="#monochrome_logs" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--monochrome_logs-body" class="param-docs-body small"><p>Do not use coloured log outputs.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="multiqc_config" class="toc-hidden"><i class="fas fa-cog fa-fw"></i> <code>--multiqc_config</code><a href="#multiqc_config" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--multiqc_config-body" class="param-docs-body small"><p>Custom config file to supply to MultiQC.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="tracedir" class="toc-hidden"><i class="fas fa-cogs fa-fw"></i> <code>--tracedir</code><a href="#tracedir" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--tracedir-body" class="param-docs-body small"><p>Directory to keep pipeline Nextflow logs and reports.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>'${params.outdir}/pipeline_info'</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="validate_params" class="toc-hidden"><i class="fas fa-check-square fa-fw"></i> <code>--validate_params</code><a href="#validate_params" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--validate_params-body" class="param-docs-body small"><p>Boolean whether to validate parameters against the schema at runtime</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><code class="text-small overflow-scroll w-100"><span class="text-muted">default: </span>1</code><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="show_hidden_params" class="toc-hidden"><i class="far fa-eye-slash fa-fw"></i> <code>--show_hidden_params</code><a href="#show_hidden_params" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--show_hidden_params-body" class="param-docs-body small"><p>Show all params when using <code><span class="text-nowrap">--help</code></p></span></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+         <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--show_hidden_params-help" aria-expanded="false">
+           <i class="fas fa-question-circle"></i> Help
+         </button><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+         <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--show_hidden_params-help">
+           <p>By default, parameters set as <em>hidden</em> in the schema are not shown on the command line when a user runs with <code><span class="text-nowrap">--help</code>.</span> Specifying this option will tell the pipeline to show all parameters.</p></div>
+     </div>
+     <div class="row param-docs-row border-bottom align-items-center param-docs-hidden collapse d-print-block">
+       <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="enable_conda" class="toc-hidden"><i class="fas fa-bacon fa-fw"></i> <code>--enable_conda</code><a href="#enable_conda" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+       <div class="col me-auto"><div id="--enable_conda-body" class="param-docs-body small"><p>Run this workflow with Conda. You can also use '-profile conda' instead of providing this parameter.</p></div></div>
+       <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center"><span class="badge bg-light text-dark small ms-2">hidden</span></div></div>
+     </div>
+     <div class="alert border bg-light small hidden_params_alert collapse show">
+       <p>The following uncommon parameters have been hidden: <code>--samplesheet</code>, <code>--genome</code>, <code>--igenomes_base</code>, <code>--igenomes_ignore</code>, <code>--custom_config_version</code>, <code>--custom_config_base</code>, <code>--config_profile_name</code>, <code>--config_profile_description</code>, <code>--config_profile_contact</code>, <code>--config_profile_url</code>, <code>--max_cpus</code>, <code>--max_memory</code>, <code>--max_time</code>, <code>--help</code>, <code>--email_on_fail</code>, <code>--plaintext_email</code>, <code>--max_multiqc_email_size</code>, <code>--monochrome_logs</code>, <code>--multiqc_config</code>, <code>--tracedir</code>, <code>--validate_params</code>, <code>--show_hidden_params</code>, <code>--enable_conda</code></p>
+       <p><a href=".param-docs-hidden, .toc .collapse, .hidden_params_alert" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Click here</a> to show all hidden params.</p>
+     </div></div></div></div>
+
+<div class="col-12 col-lg-3 ps-2"><div class="side-sub-subnav sticky-top">
+    <nav class="toc pt-2 auto-toc border-start d-print-none">
+    <strong class="ms-3 d-inline-block w-100 text-secondary border-bottom">On this page</strong>
 <nav class="nav flex-column flex-nowrap">
 <a class="nav-link scroll_to_link py-1  active " href="parameters.html#parameters">Parameters</a>
 <nav class="nav flex-column flex-nowrap">
