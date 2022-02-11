@@ -11,13 +11,15 @@ WorkflowMicrobiome.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.samplesheet, params.metadata, params.barcodes ]
+def checkPathParamList = [ params.input, params.multiqc_config, params.samplesheet, params.metadata ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input bcl folder not specified!' }
 if (params.samplesheet) { ch_samplesheet = file(params.samplesheet) } else { exit 1, 'Input samplesheet not specified!' }
-if (params.barcodes) { ch_barcodes = file(params.barcodes, checkIfExists: true) } else { exit 1, 'Barcodes not specified!' }
+if (!params.skip_demultiplex) {
+    if (params.barcodes) { ch_barcodes = file(params.barcodes, checkIfExists: true) } else { exit 1, 'Barcodes not specified!' }
+}
 if (params.metadata) { ch_metadata = file(params.metadata, checkIfExists: true) } else { exit 1, 'Metadata not specified!' }
 if (params.silva_nr99) { ch_silva_nr99 = file(params.silva_nr99, checkIfExists: true) } else { exit 1, 'Training set not specified!' }
 if (params.silva_tax) { ch_silva_tax = file(params.silva_tax, checkIfExists: true) } else { exit 1, 'Species assignment data not specified!' }
