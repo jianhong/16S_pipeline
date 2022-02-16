@@ -61,11 +61,10 @@ Break fastq files (F and R) into individual samples based on barcodes using [`qi
 <summary>Output files</summary>
 
 * `4_filter/<SAMPLEID>/*.fastq.gz`: Zip archive containing filtered fastq files.
-* `4_filter/*.png`: QC plots.
-* `5_DADA2/*.rds`: R object from DATA2 for downstream analysis.
-* `5_DADA2/*.png`: QC plots.
-* `5_DADA2/*.csv`: QC stats from DATA2 for downstream analysis.
-* `5_DADA2/*.txt`: DATA2 and phyloseq running logs.
+* `{4_filter,5_dada2}/*.png`: QC plots.
+* `{5_dada2,6_phyloseq}/*.rds`: R object from DATA2 for downstream analysis.
+* `{5_dada2,6_phyloseq}/*.csv`: QC stats from DATA2 for downstream analysis.
+* `{5_dada2,6_phyloseq}/*.txt`: DATA2 and phyloseq running logs.
 
 </details>
 
