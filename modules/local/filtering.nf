@@ -97,17 +97,17 @@ process FILTERING {
         files <- strsplit(DEMUXD_READS, "\\\\s+")[[1]]
     }
 
-    fnFs.s1 <- files[grepl("_R1_", files)]
-    fnRs.s1 <- files[grepl("_R2_", files)]
+    fnFs.s1 <- files[grepl("_R1[_.]", files)]
+    fnRs.s1 <- files[grepl("_R2[_.]", files)]
 
     # Sort to ensure filenames are in the same order
     fnFs.s1 <- sort(fnFs.s1)
     fnRs.s1 <- sort(fnRs.s1)
 
-    sample.names.1 <- sapply(strsplit(fnFs.s1, "_R1_.*?.(fastq|fq)", fixed=FALSE), `[`, 1)
+    sample.names.1 <- sapply(strsplit(fnFs.s1, "_R1[_.].*?(fastq|fq)", fixed=FALSE), `[`, 1)
     if(PAIRED_END){
         ## match pairs
-        sample.names.2 <- sapply(strsplit(fnRs.s1,"_R2_.*?.(fastq|fq)", fixed=FALSE), `[`, 1)
+        sample.names.2 <- sapply(strsplit(fnRs.s1,"_R2[_.].*?(fastq|fq)", fixed=FALSE), `[`, 1)
         sample.names.shared <- intersect(sample.names.1, sample.names.2)
         fnFs.s1 <- fnFs.s1[match(sample.names.shared, sample.names.1)]
         fnRs.s1 <- fnRs.s1[match(sample.names.shared, sample.names.2)]

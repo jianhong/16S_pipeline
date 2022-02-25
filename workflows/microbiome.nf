@@ -103,7 +103,7 @@ workflow MICROBIOME {
         }else{
             ch_reads = bcl_undetermined.flatten()
                                 .filter{ it.simpleName =~ /_R[12]_/ }
-                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]}
+                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: false], it]}
                                 .groupTuple()
         }
         //ch_reads.view()
@@ -132,7 +132,7 @@ workflow MICROBIOME {
         if(!params.single_end){
             ch_reads2 = bcl_undetermined.flatten()
                                 .filter{ it.simpleName =~ /_I1_/ }
-                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]}
+                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: false], it]}
                                 .join(REMOVE_PRIMERS.out.paired)
             //ch_reads2.view()
             SYNC_BARCODES(ch_reads2)
@@ -153,10 +153,35 @@ workflow MICROBIOME {
         ch_versions = ch_versions.mix(QIIME_DEMULTIPLEX.out.versions)
         ch_reads4 = QIIME_DEMULTIPLEX.out.reads
     }else{
-        ch_reads4 = bcl_undetermined.flatten()
+        ch_reads = bcl_undetermined.flatten()
                             .filter{ it.simpleName =~ /_R[12]_/ }
-                            .map{[[id: 'demultiplexed'], it]}
+                            .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: params.single_end], it]}
                             .groupTuple()
+        //
+        // MODULE: Run FastQC
+        //
+        if(!params.skip_fastqc){
+            FASTQC (
+                ch_reads
+            )
+            ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+            ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+        }
+
+        //
+        // MODULE: trimmomatic to remove primers
+        //
+        REMOVE_PRIMERS(ch_reads, params.single_end)
+        ch_versions = ch_versions.mix(REMOVE_PRIMERS.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(REMOVE_PRIMERS.out.log.collect().ifEmpty([]))
+
+        ch_reads2 = REMOVE_PRIMERS.out.paired
+        if(params.single_end){
+            ch_reads3 = ch_reads2.map{[[id:'demultiplexed'], it[1]]}
+        }else{
+            ch_reads3 = ch_reads2.map{[it[1], it[2]]}.flatten().map{[[id:'demultiplexed'], it]}
+        }
+        ch_reads4 = ch_reads3.groupTuple()
     }
 
     //
