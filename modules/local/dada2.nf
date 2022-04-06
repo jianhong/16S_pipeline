@@ -230,7 +230,7 @@ process DADA2 {
     # Following: http://benjjneb.github.io/dada2_pipeline_MV/species.html
 
     # Assign using Naive Bayes RDP
-    taxtab <- assignTaxonomy(colnames(seqtab), TRAIN_SET, multithread=NCORE)
+    taxtab <- assignTaxonomy(colnames(seqtab), TRAIN_SET, tryRC=TRYRC, multithread=NCORE)
 
     # improve with exact genus-species matches
     # this step is pretty slow, should improve in later releases
