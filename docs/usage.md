@@ -232,6 +232,7 @@ For `DADA2`, the options are
 ```{R}
 --seq1, -a,           "integer",  The number of minimal sequence length should be kept.
 --seq2, -b,           "integer",  The number of maximum sequence length should be kept.
+--tryRC, -r,          "logical",  Default FALSE. If TRUE, the reverse-complement of each sequences will be used for classification if it is a better match to the reference sequences than the forward sequence.
 ```
 
 ### Updating containers
