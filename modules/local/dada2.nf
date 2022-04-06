@@ -47,6 +47,7 @@ process DADA2 {
     STATS <- "$stats"
     SEQL1 <- 0
     SEQL2 <- 0
+    TRYRC <- FALSE
     SAMPLENAMES <- "samplenames.1.rds"
     SEQTAB_S1 <- "seqtab.s1.rds"
     SEQTAB <- "seqtab.nochim.rds"
@@ -68,13 +69,17 @@ process DADA2 {
         })
     }
     option_list <- list("seqlen1"=c("--seq1", "-a", "integer"),
-                        "seqlen2"=c("--seq2", "-b", "integer"))
+                        "seqlen2"=c("--seq2", "-b", "integer"),
+                        "tryRC"=c("--tryRC", "-r", "logical"))
     opt <- parse_args(option_list, args)
     if(!is.null(opt[["seqlen1"]])){
         SEQL1 <- opt[["seqlen1"]]
     }
     if(!is.null(opt[["seqlen2"]])){
         SEQL2 <- opt[["seqlen2"]]
+    }
+    if(!is.null(opt[["tryRC"]])){
+        TRYRC <- opt[["tryRC"]]
     }
 
     # stats
@@ -230,7 +235,7 @@ process DADA2 {
     # improve with exact genus-species matches
     # this step is pretty slow, should improve in later releases
     # - note: Not allowing multiple species matches in default setting
-    taxtab <- addSpecies(taxtab, SPECIES_ASSIGNMENT, verbose=TRUE)
+    taxtab <- addSpecies(taxtab, SPECIES_ASSIGNMENT, tryRC=TRYRC, verbose=TRUE)
     saveRDS(taxtab, TAXTAB)
 
     # How many sequences are classified at different levels? (percent)
