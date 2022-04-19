@@ -21,7 +21,7 @@ if (!params.skip_demultiplex) {
     if (params.barcodes) { ch_barcodes = file(params.barcodes, checkIfExists: true) } else { exit 1, 'Barcodes not specified!' }
 }
 if (params.metadata) { ch_metadata = file(params.metadata, checkIfExists: true) } else { exit 1, 'Metadata not specified!' }
-if (params.silva_nr99) { ch_silva_nr99 = file(params.silva_nr99/, checkIfExists: true) } else { exit 1, 'Training set not specified!' }
+if (params.silva_nr99) { ch_silva_nr99 = file(params.silva_nr99, checkIfExists: true) } else { exit 1, 'Training set not specified!' }
 if (params.silva_tax) { ch_silva_tax = file(params.silva_tax, checkIfExists: true) } else { exit 1, 'Species assignment data not specified!' }
 
 /*
