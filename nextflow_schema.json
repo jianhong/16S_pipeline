@@ -66,6 +66,30 @@
                     "hidden": false,
                     "description": "Single end or Paired end.",
                     "fa_icon": "far fa-clone"
+                },
+                "R12_pattern": {
+                    "type": "string",
+                    "default": "_R[12]_",
+                    "description": "The pattern for R1 and R2 reads",
+                    "fa_icon": "fas fa-align-justify"
+                },
+                "R1_pattern": {
+                    "type": "string",
+                    "default": "_R1_",
+                    "description": "The pattern for R1 reads",
+                    "fa_icon": "fas fa-align-left"
+                },
+                "I1_pattern": {
+                    "type": "string",
+                    "default": "_I1_",
+                    "description": "The pattern for I1 reads",
+                    "fa_icon": "fas fa-align-right"
+                },
+                "simplename_pattern": {
+                    "type": "string",
+                    "default": "_[RI][12]_[0-9]+$",
+                    "description": "The filename to be replaced for simplify the sample names",
+                    "fa_icon": "fas fa-align-justify"
                 }
             }
         },
@@ -304,6 +328,12 @@
                     "description": "Run this workflow with Conda. You can also use '-profile conda' instead of providing this parameter.",
                     "hidden": true,
                     "fa_icon": "fas fa-bacon"
+                },
+                "verbose": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-info",
+                    "description": "Show detailed information when running the pipeline",
+                    "hidden": true
                 }
             }
         }

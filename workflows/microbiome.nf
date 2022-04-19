@@ -21,7 +21,7 @@ if (!params.skip_demultiplex) {
     if (params.barcodes) { ch_barcodes = file(params.barcodes, checkIfExists: true) } else { exit 1, 'Barcodes not specified!' }
 }
 if (params.metadata) { ch_metadata = file(params.metadata, checkIfExists: true) } else { exit 1, 'Metadata not specified!' }
-if (params.silva_nr99) { ch_silva_nr99 = file(params.silva_nr99, checkIfExists: true) } else { exit 1, 'Training set not specified!' }
+if (params.silva_nr99) { ch_silva_nr99 = file(params.silva_nr99/, checkIfExists: true) } else { exit 1, 'Training set not specified!' }
 if (params.silva_tax) { ch_silva_tax = file(params.silva_tax, checkIfExists: true) } else { exit 1, 'Species assignment data not specified!' }
 
 /*
@@ -90,7 +90,9 @@ workflow MICROBIOME {
     }else{
         bcl_undetermined = Channel.fromPath("${params.input}/**.{fastq,fq}.gz")
     }
-    //bcl_undetermined.view()
+    if(params.verbose){
+        bcl_undetermined.view()
+    }
 
     if(!params.skip_demultiplex){
         //
@@ -98,15 +100,17 @@ workflow MICROBIOME {
         //
         if(params.single_end){
             ch_reads = bcl_undetermined.flatten()
-                                .filter{ it.simpleName =~ /_R1_/ }
-                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: true], it]}
+                                .filter{ it.simpleName =~ params.R1_pattern }
+                                .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: true], it]}
         }else{
             ch_reads = bcl_undetermined.flatten()
-                                .filter{ it.simpleName =~ /_R[12]_/ }
-                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: false], it]}
+                                .filter{ it.simpleName =~ params.R12_pattern }
+                                .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: false], it]}
                                 .groupTuple()
         }
-        //ch_reads.view()
+        if(params.verbose) {
+            ch_reads.view()
+        }
 
         //
         // MODULE: Run FastQC
@@ -131,8 +135,8 @@ workflow MICROBIOME {
         //
         if(!params.single_end){
             ch_reads2 = bcl_undetermined.flatten()
-                                .filter{ it.simpleName =~ /_I1_/ }
-                                .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: false], it]}
+                                .filter{ it.simpleName =~ params.I1_pattern }
+                                .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: false], it]}
                                 .join(REMOVE_PRIMERS.out.paired)
             //ch_reads2.view()
             SYNC_BARCODES(ch_reads2)
@@ -141,10 +145,13 @@ workflow MICROBIOME {
         }else{
             ch_reads3 = REMOVE_PRIMERS.out.paired.map{[[id:it[0].id], it[1], []]}
                         .join(bcl_undetermined.flatten()
-                            .filter{ it.simpleName =~ /_I1_/ }
-                            .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, '')], it]})
+                            .filter{ it.simpleName =~ params.I1_pattern }
+                            .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, '')], it]})
         }
-        //ch_reads3.view()
+
+        if(params.verbose) {
+            ch_reads3.view()
+        }
 
         //
         // MODULE: demultiplex
@@ -154,9 +161,13 @@ workflow MICROBIOME {
         ch_reads4 = QIIME_DEMULTIPLEX.out.reads
     }else{
         ch_reads = bcl_undetermined.flatten()
-                            .filter{ it.simpleName =~ /_R[12]_/ }
-                            .map{[[id: it.simpleName.replaceAll(/_[RI][12]_[0-9]+$/, ''), single_end: params.single_end], it]}
+                            .filter{ it.simpleName =~ params.R12_pattern }
+                            .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: params.single_end], it]}
                             .groupTuple()
+
+        if(params.verbose){
+            ch_reads.view()
+        }
         //
         // MODULE: Run FastQC
         //
