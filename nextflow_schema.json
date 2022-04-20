@@ -85,9 +85,9 @@
                     "description": "The pattern for I1 reads",
                     "fa_icon": "fas fa-align-right"
                 },
-                "simplename_pattern": {
+                "basename_pattern": {
                     "type": "string",
-                    "default": "_[RI][12]_[0-9]+$",
+                    "default": "_[RI][12]_[0-9]+.*?$)",
                     "description": "The filename to be replaced for simplify the sample names",
                     "fa_icon": "fas fa-align-justify"
                 }

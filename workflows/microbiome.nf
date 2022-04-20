@@ -91,7 +91,7 @@ workflow MICROBIOME {
         bcl_undetermined = Channel.fromPath("${params.input}/**.{fastq,fq}.gz")
     }
     if(params.verbose){
-        bcl_undetermined.view()
+        bcl_undetermined.view{'bcl_undetermined:'+it.baseName}
     }
 
     if(!params.skip_demultiplex){
@@ -100,16 +100,16 @@ workflow MICROBIOME {
         //
         if(params.single_end){
             ch_reads = bcl_undetermined.flatten()
-                                .filter{ it.simpleName =~ params.R1_pattern }
-                                .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: true], it]}
+                                .filter{ it.baseName =~ params.R1_pattern }
+                                .map{[[id: it.baseName.replaceAll(params.basename_pattern, ''), single_end: true], it]}
         }else{
             ch_reads = bcl_undetermined.flatten()
-                                .filter{ it.simpleName =~ params.R12_pattern }
-                                .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: false], it]}
+                                .filter{ it.baseName =~ params.R12_pattern }
+                                .map{[[id: it.baseName.replaceAll(params.basename_pattern, ''), single_end: false], it]}
                                 .groupTuple()
         }
         if(params.verbose) {
-            ch_reads.view()
+            ch_reads.view{'ch_reads:'+it}
         }
 
         //
@@ -135,8 +135,8 @@ workflow MICROBIOME {
         //
         if(!params.single_end){
             ch_reads2 = bcl_undetermined.flatten()
-                                .filter{ it.simpleName =~ params.I1_pattern }
-                                .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: false], it]}
+                                .filter{ it.baseName =~ params.I1_pattern }
+                                .map{[[id: it.baseName.replaceAll(params.basename_pattern, ''), single_end: false], it]}
                                 .join(REMOVE_PRIMERS.out.paired)
             //ch_reads2.view()
             SYNC_BARCODES(ch_reads2)
@@ -145,12 +145,12 @@ workflow MICROBIOME {
         }else{
             ch_reads3 = REMOVE_PRIMERS.out.paired.map{[[id:it[0].id], it[1], []]}
                         .join(bcl_undetermined.flatten()
-                            .filter{ it.simpleName =~ params.I1_pattern }
-                            .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, '')], it]})
+                            .filter{ it.baseName =~ params.I1_pattern }
+                            .map{[[id: it.baseName.replaceAll(params.basename_pattern, '')], it]})
         }
 
         if(params.verbose) {
-            ch_reads3.view()
+            ch_reads3.view{'ch_reads3:'+it}
         }
 
         //
@@ -161,12 +161,12 @@ workflow MICROBIOME {
         ch_reads4 = QIIME_DEMULTIPLEX.out.reads
     }else{
         ch_reads = bcl_undetermined.flatten()
-                            .filter{ it.simpleName =~ params.R12_pattern }
-                            .map{[[id: it.simpleName.replaceAll(params.simplename_pattern, ''), single_end: params.single_end], it]}
+                            .filter{ it.baseName =~ params.R12_pattern }
+                            .map{[[id: it.baseName.replaceAll(params.basename_pattern, ''), single_end: params.single_end], it]}
                             .groupTuple()
 
         if(params.verbose){
-            ch_reads.view()
+            ch_reads.view{'ch_reads:'+it}
         }
         //
         // MODULE: Run FastQC
