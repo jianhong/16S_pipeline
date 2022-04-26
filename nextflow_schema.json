@@ -10,11 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": [
-                "input",
-                "metadata",
-                "samplesheet"
-            ],
+            "required": ["input", "metadata", "samplesheet"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -136,10 +132,7 @@
                     "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
                 }
             },
-            "required": [
-                "silva_nr99",
-                "silva_tax"
-            ]
+            "required": ["silva_nr99", "silva_tax"]
         },
         "pipeline_control_options": {
             "title": "Pipeline control options",
