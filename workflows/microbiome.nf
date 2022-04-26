@@ -64,6 +64,8 @@ include { SYNC_BARCODES               } from '../modules/local/sync_barcodes'
 include { FILTERING                   } from '../modules/local/filtering'
 include { DADA2                       } from '../modules/local/dada2'
 include { PHYLOSEQ                    } from '../modules/local/phyloseq'
+include { KRONA                       } from '../modules/local/krona'
+
 /*
 ========================================================================================
     RUN MAIN WORKFLOW
@@ -214,6 +216,11 @@ workflow MICROBIOME {
     //
     PHYLOSEQ(DADA2.out.robj, ch_metadata)
     ch_versions = ch_versions.mix(PHYLOSEQ.out.versions)
+
+    //
+    // MODULE: Run Krona
+    KRONA(PHYLOSEQ.out.krona)
+    ch_versions = ch_versions.mix(KRONA.out.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')

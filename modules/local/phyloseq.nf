@@ -13,13 +13,15 @@ process PHYLOSEQ {
     path metadata
 
     output:
-    tuple val(meta), path("$prefix")     , emit: phyloseq
-    path 'phyloseq.out.txt'              , emit: log
-    path "versions.yml"                  , emit: versions
+    tuple val(meta), path("$prefix")         , emit: phyloseq
+    tuple val(meta), path("$krona_folder/*") , emit: krona, optional: true
+    path 'phyloseq.out.txt'                  , emit: log
+    path "versions.yml"                      , emit: versions
 
     script:
     def args   = task.ext.args ?: ''
     prefix = task.ext.prefix ?: "${meta.id}"
+    krona_folder = "4Krona"
     """
     #!/usr/bin/env Rscript
     # Applying dada2 pipeline to bioreactor time-series
@@ -46,6 +48,8 @@ process PHYLOSEQ {
     TAXTAB <- "taxtab.rds"
     SAMPLENAMES <- "samplenames.1.rds"
     OUTFOLDER <- "$prefix"
+    SAMPLEID_COL <- "SampleID"
+    KRONA_FOLDER <- "$krona_folder"
 
     # Make phyloseq object ----------------------------------------------------
     # import data from dada2 output
@@ -56,9 +60,9 @@ process PHYLOSEQ {
 
     # Import mapping
     map1 <- read.csv(MAPPING, stringsAsFactors = FALSE)
-    map1 <- map1[map1[, "SampleID"] %in% sample.names.1,]
+    map1 <- map1[map1[, SAMPLEID_COL] %in% sample.names.1,]
     map <- as.data.frame(map1) # without this line get sam_data slot empty error from phyloseq
-    rownames(map) <- map[, "SampleID"]
+    rownames(map) <- map[, SAMPLEID_COL]
 
     # Make refseq object and extract sequences from tables
     refseq <- colnames(seqtab)
@@ -78,5 +82,18 @@ process PHYLOSEQ {
 
     # copy the log file
     file.copy(".command.log", "phyloseq.out.txt")
+
+    # output file for krona
+    df <- psmelt(ps)
+    df <- df[, c("Abundance", SAMPLEID_COL, rank_names(ps)), drop=FALSE]
+    df[, SAMPLEID_COL] <- as.factor(gsub("[^0-9a-zA-Z]", "_", df[, SAMPLEID_COL])) ## trim the sample names
+    dir.create(KRONA_FOLDER, recursive=TRUE)
+    for(lvl in levels(df[, SAMPLEID_COL])){
+        write.table(
+            df[which(df[, SAMPLEID_COL] == lvl & df[, "Abundance"] != 0), -2, drop=FALSE],
+            file = file.path(KRONA_FOLDER, paste0(lvl, ".txt")),
+            sep = "\\t", row.names = FALSE, col.names = FALSE,
+            na = "", quote = FALSE)
+    }
     """
 }

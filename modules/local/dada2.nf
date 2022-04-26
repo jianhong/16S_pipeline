@@ -27,7 +27,7 @@ process DADA2 {
     ## Following tutorial http://benjjneb.github.io/dada2_pipeline_MV/tutorial.html
     ## and here http://benjjneb.github.io/dada2_pipeline_MV/tutorial.html
 
-    pkgs <- c("dada2", "ggplot2")
+    pkgs <- c("dada2", "ggplot2", "Biostrings")
     versions <- c("${task.process}:")
     for(pkg in pkgs){
         # load library
@@ -182,6 +182,21 @@ process DADA2 {
     #follow https://github.com/benjjneb/dada2/issues/134
 
     seqtab.s1 <- makeSequenceTable(mergers.s1)
+    if(TRYRC){ # merging the reverseComplement sequences
+        cnames <- DNAStringSet(colnames(seqtab.s1))
+        cnames_rc <- reverseComplement(cnames)
+        comb <- combn(seq_along(cnames), 2, simplify=TRUE)
+        cnames <- as.character(cnames)
+        cnames_rc <- as.character(cnames_rc)
+        adist <- cnames[comb[1, ]] == cnames_rc[comb[2, ]]
+        if(any(adist)){
+            tobemerged <- comb[, adist, drop=FALSE]
+            seqtab.s1[, cnames[tobemerged[1, ]]] <-
+                seqtab.s1[, cnames[tobemerged[1, ]]] +
+                seqtab.s1[, cnames[tobemerged[2, ]]]
+            seqtab.s1 <- seqtab.s1[, -tobemerged[2, ], drop=FALSE]
+        }
+    }
     saveRDS(seqtab.s1, SEQTAB_S1)
     dim(seqtab.s1)
     # Inspect the distributioh of sequence lengths

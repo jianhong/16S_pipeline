@@ -20,6 +20,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 4. Demultiplex ([`qiime2::demux`](https://docs.qiime2.org/2021.11/plugins/available/demux/))
 5. Filter reads ([`DATA2`](http://benjjneb.github.io/dada2/))
 6. Run dada2 ([`DATA2`](http://benjjneb.github.io/dada2/))
+7. Visualization ([`Krona`](https://github.com/marbl/Krona/wiki))
 7. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
 
 ## Quick Start

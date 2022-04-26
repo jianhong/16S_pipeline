@@ -65,6 +65,7 @@ Break fastq files (F and R) into individual samples based on barcodes using [`qi
 * `{5_dada2,6_phyloseq}/*.rds`: R object from DATA2 for downstream analysis.
 * `{5_dada2,6_phyloseq}/*.csv`: QC stats from DATA2 for downstream analysis.
 * `{5_dada2,6_phyloseq}/*.txt`: DATA2 and phyloseq running logs.
+* `{7_Krona}/*.html`: Interactive metagenomic visualization by KronaTools.
 
 </details>
 
