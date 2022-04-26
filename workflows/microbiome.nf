@@ -65,7 +65,6 @@ include { FILTERING                   } from '../modules/local/filtering'
 include { DADA2                       } from '../modules/local/dada2'
 include { PHYLOSEQ                    } from '../modules/local/phyloseq'
 include { KRONA                       } from '../modules/local/krona'
-
 /*
 ========================================================================================
     RUN MAIN WORKFLOW
@@ -219,6 +218,7 @@ workflow MICROBIOME {
 
     //
     // MODULE: Run Krona
+    //
     KRONA(PHYLOSEQ.out.krona)
     ch_versions = ch_versions.mix(KRONA.out.versions)
 
