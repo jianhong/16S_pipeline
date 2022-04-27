@@ -160,7 +160,13 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-columns",
                     "description": "skip demultiplex or not",
-                    "help_text": "The process will start from `filter` and be followed by `dada2 processing` . The input fastqs must follow the pattern of \"*_R{1,2}_{fastq,fq}.gz\""
+                    "help_text": "The process will start from `filter` and be followed by `dada2 processing` . The input fastqs must follow the pattern of \"*_R{1,2}_{fastq,fq}.gz\" or user-defined patterns."
+                },
+                "tryRC": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-history",
+                    "description": "try to merge the sequences for reverse complements",
+                    "help_text": "See documentation at [DADA2](https://benjjneb.github.io/dada2/index.html) for for function `assignTaxonomy`"
                 }
             },
             "fa_icon": "fas fa-filter"
