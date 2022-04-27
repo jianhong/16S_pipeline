@@ -277,8 +277,18 @@
            <i class="fas fa-question-circle"></i> Help
          </button></div></div>
          <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--skip_demultiplex-help">
-           <p>The process will start from <code>filter</code> and be followed by <code>dada2 processing</code> . The input fastqs must follow the pattern of "*<em>R{1,2}</em>{fastq,fq}.gz"</p></div>
+           <p>The process will start from <code>filter</code> and be followed by <code>dada2 processing</code> . The input fastqs must follow the pattern of "*<em>R{1,2}</em>{fastq,fq}.gz" or user-defined patterns.</p></div>
      </div>
+     <div class="row param-docs-row border-bottom align-items-center">
+      <div class="col-10 col-md-5 col-lg-4 col-xl-3 small-h ps-3 param-docs-row-id-col"><h3 id="tryrc" class=""><i class="fas fa-history fa-fw"></i> <code>--tryRC</code><a href="#tryrc" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h3></div>
+      <div class="col me-auto"><div id="--tryRC-body" class="param-docs-body small"><p>try to merge the sequences for reverse complements</p></div></div>
+      <div class="col-auto d-flex flex-column align-items-end my-1"><div class="param_labels_helpbtn d-flex align-items-center">
+        <button class="btn btn-sm btn-outline-info ms-2 mb-1 mt-1" data-bs-toggle="collapse" href="#--tryRC-help" aria-expanded="false">
+          <i class="fas fa-question-circle"></i> Help
+        </button></div></div>
+        <div class="collapse bg-lightgray col-12 param-docs-help-text p-2 mb-2 small d-print-block" id="--tryRC-help">
+          <p>See documentation at <a href="https://benjjneb.github.io/dada2/index.html">DADA2</a> for for function <code>assignTaxonomy</code></p></div>
+    </div>
      <div class="row param-docs-row border-bottom align-items-baseline mt-5 param-docs-row-group param-docs-hidden collapse d-print-block">
        <div class="col-12 param-docs-row-id-col"><h2 id="institutional-config-options" class="toc-hidden"><i class="fas fa-university fa-fw"></i> Institutional config options<a href="#institutional-config-options" class="header-link scroll_to_link"><span class="fas fa-link"></span></a></h2></div>
        <div class="col me-auto"><div id="institutional_config_options-body" class="param-docs-body lead mb-3"><p>Parameters used to describe centralised config profiles. These should not be edited.</p></div></div>
