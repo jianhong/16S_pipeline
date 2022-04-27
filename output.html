@@ -67,6 +67,9 @@
           <li class="nav-item p-1">
             <a class="nav-link" href="multiqc.html">Multiqc</a>
           </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="krona.html">Krona</a>
+          </li>
         </ul>
         <hr class="d-md-none">
       </div>
@@ -108,6 +111,9 @@
     </li>
     <li class="nav-item">
     <a class="nav-link" href="multiqc.html"><i class="far fa-book me-1" aria-hidden="true"></i> MultiQC </a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="krona.html"><i class="far fa-book me-1" aria-hidden="true"></i> Krona </a>
     </li>
 
   </ul>
@@ -160,6 +166,9 @@ This step is recommended by dada2 in their FAQ on chimera checking.</p>
 <li><code>4_filter/&lt;sampleid&gt;/ *.fastq.gz</code>: Zip archive containing filtered fastq files.</li>
 <li><code>4_filter/ *.png</code>: QC plots.</li>
 <li><code>4_filter/ *.rds</code>: R object from DATA2 for downstream analysis.</li>
+<li><code>{5_dada2,6_phyloseq}/*.csv</code>: QC stats from DATA2 for downstream analysis.</li>
+<li><code>{5_dada2,6_phyloseq}/*.txt</code>: DATA2 and phyloseq running logs.</li>
+<li><code>{7_Krona}/*.html</code>: Interactive metagenomic visualization by KronaTools.</li>
 </ul>
 <p></p>
 </details>
