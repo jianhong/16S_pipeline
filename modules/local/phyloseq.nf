@@ -85,15 +85,24 @@ process PHYLOSEQ {
 
     # output file for krona
     df <- psmelt(ps)
-    df <- df[, c("Abundance", SAMPLEID_COL, rank_names(ps)), drop=FALSE]
-    df[, SAMPLEID_COL] <- as.factor(gsub("[^0-9a-zA-Z]", "_", df[, SAMPLEID_COL])) ## trim the sample names
-    dir.create(KRONA_FOLDER, recursive=TRUE)
-    for(lvl in levels(df[, SAMPLEID_COL])){
-        write.table(
-            df[which(df[, SAMPLEID_COL] == lvl & df[, "Abundance"] != 0), -2, drop=FALSE],
-            file = file.path(KRONA_FOLDER, paste0(lvl, ".txt")),
-            sep = "\\t", row.names = FALSE, col.names = FALSE,
-            na = "", quote = FALSE)
+    cn <- c("Abundance", SAMPLEID_COL, rank_names(ps))
+    cn <- intersect(cn, colnames(df))
+    if(SAMPLEID_COL %in% cn){
+        for(i in rank_names(ps)){
+            if(!i %in% cn){
+                df[, i] <- NA
+            }
+        }
+        df <- df[, c("Abundance", SAMPLEID_COL, rank_names(ps)), drop=FALSE]
+        df[, SAMPLEID_COL] <- as.factor(gsub("[^0-9a-zA-Z]", "_", df[, SAMPLEID_COL])) ## trim the sample names
+        dir.create(KRONA_FOLDER, recursive=TRUE)
+        for(lvl in levels(df[, SAMPLEID_COL])){
+            write.table(
+                df[which(df[, SAMPLEID_COL] == lvl & df[, "Abundance"] != 0), -2, drop=FALSE],
+                file = file.path(KRONA_FOLDER, paste0(lvl, ".txt")),
+                sep = "\\t", row.names = FALSE, col.names = FALSE,
+                na = "", quote = FALSE)
+        }
     }
     """
 }
