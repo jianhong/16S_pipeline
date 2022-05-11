@@ -106,8 +106,8 @@ workflow MICROBIOME {
         }else{
             ch_reads = bcl_undetermined.flatten()
                                 .filter{ it.baseName =~ params.R12_pattern }
-                                .map{[[id: it.baseName.replaceAll(params.basename_pattern, ''), single_end: false], it]}
-                                .groupTuple()
+                                .map{[[id: it.baseName.replaceAll(params.basename_pattern, ''), single_end: false], it ]}
+                                .groupTuple(sort: true)
         }
         if(params.verbose) {
             ch_reads.view{'ch_reads:'+it}
