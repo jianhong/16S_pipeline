@@ -111,7 +111,11 @@ process DADA2 {
     # Learn Error Rates
     ## aim to learn from about 1M total reads - so just need subset of samples
     ## source: http://benjjneb.github.io/dada2_pipeline_MV/bigdata.html
-    filts.learn.s1 <- sample(sample.names.1, 36)
+    if(length(sample.names.1)>36){
+        filts.learn.s1 <- sample(sample.names.1, 36)
+    }else{
+        filts.learn.s1 <- sample.names.1
+    }
 
     derepFs.s1.learn <- derepFastq(filtFs.s1[filts.learn.s1], verbose=TRUE)
     if(PAIRED_END) derepRs.s1.learn <- derepFastq(filtRs.s1[filts.learn.s1], verbose=TRUE)
